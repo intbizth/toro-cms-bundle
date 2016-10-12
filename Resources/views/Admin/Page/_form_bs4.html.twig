@@ -1,0 +1,70 @@
+{{ form_errors(form) }}
+
+<div class="tab-base">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a data-toggle="tab" href="#page-form-tab-content">{{ "Content" }}</a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#page-form-tab-templating" data-code-mirror="page-templating"
+               data-code-mirror-id="{{ form.options.templating.vars.id }}"
+               data-code-mirror-mode="twig">
+                {{ "Template" }}
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#page-form-tab-style" data-code-mirror="page-style"
+               data-code-mirror-id="{{ form.options.style.vars.id }}"
+               data-code-mirror-mode="css">
+                {{ "Style" }}
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#page-form-tab-script" data-code-mirror="page-script"
+               data-code-mirror-id="{{ form.options.script.vars.id }}"
+               data-code-mirror-mode="javascript">
+                {{ "Script" }}
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#page-form-tab-translation" data-code-mirror="page-translation"
+               data-code-mirror-id="{{ form.options.translation.vars.id }}"
+               data-code-mirror-mode="yaml">
+                {{ "Translation" }}
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#page-form-tab-option" data-code-mirror="page-data"
+               data-code-mirror-id="{{ form.options.data.vars.id }}" data-code-mirror-mode="yaml">
+                {{ "Options" }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content no-pad">
+        <div id="page-form-tab-content" class="tab-pane active">
+            {{ form_row(form.translations) }}
+            <div class="pad-all">
+                {{ form_row(form.channel) }}
+                {{ form_row(form.published) }}
+                {{ form_row(form.partial) }}
+            </div>
+        </div>
+        <div id="page-form-tab-templating" class="tab-pane">
+            {{ form_widget(form.options.templating) }}
+        </div>
+        <div id="page-form-tab-style" class="tab-pane">
+            {{ form_widget(form.options.style) }}
+        </div>
+        <div id="page-form-tab-script" class="tab-pane">
+            {{ form_widget(form.options.script) }}
+        </div>
+        <div id="page-form-tab-translation" class="tab-pane">
+            {{ form_widget(form.options.translation) }}
+        </div>
+        <div id="page-form-tab-option" class="tab-pane">
+            {{ form_widget(form.options.data) }}
+        </div>
+    </div>
+</div>
+
+{{ toro_tinymce({mediaPath: 'pages'}) }}

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <imports>
+        <import resource="routers.xml"/>
+        <import resource="twigs.xml"/>
+        <import resource="themes.xml"/>
+    </imports>
+
+    <services>
+        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4" public="false" class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4View">
+            <tag name="pagerfanta.view" alias="twitter_bootstrap4"/>
+        </service>
+
+        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4_translated" public="false" class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4TranslatedView">
+            <argument type="service" id="toro_cms.pagerfanta.view.twitter_bootstrap4"/>
+            <argument type="service" id="translator"/>
+            <tag name="pagerfanta.view" alias="twitter_bootstrap4_translated"/>
+        </service>
+
+        <service id="toro_cms.event_subscriber.discriminator_entity_type" class="Toro\Bundle\CmsBundle\EventListener\DiscriminatorEntityTypeSubscriber">
+            <tag name="doctrine.event_subscriber" priority="8192"/>
+        </service>
+    </services>
+</container>

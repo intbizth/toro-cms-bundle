@@ -1,0 +1,3 @@
+imports:
+    - { resource: sylius_theme.yml }
+    - { resource: fixtures/pages.yml }

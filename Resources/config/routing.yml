@@ -1,0 +1,15 @@
+toro_cms_partial_page:
+    path: /_partial/page/{slug}
+    defaults:
+        _controller: toro.controller.page:partialAction
+        template: ToroCmsBundle::partial.html.twig
+    requirements:
+        slug: .+
+
+toro_cms_page:
+    path: /{slug}
+    defaults:
+        _controller: toro.controller.page:viewAction
+        template: ToroCmsBundle::show.html.twig
+    requirements:
+        slug: .+

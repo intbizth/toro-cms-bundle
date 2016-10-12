@@ -1,0 +1,191 @@
+<?php
+
+namespace Toro\Bundle\CmsBundle\Controller;
+
+use FOS\RestBundle\View\View;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Component\Resource\Model\TimestampableInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
+use Toro\Bundle\CmsBundle\Doctrine\ORM\PageRepository;
+use Toro\Bundle\CmsBundle\Model\OptionableInterface;
+use Toro\Bundle\CmsBundle\Model\PageInterface;
+
+class PageController extends ResourceController
+{
+    /**
+     * @param string $slug
+     * @param boolean $partial
+     *
+     * @return PageInterface|OptionableInterface|TimestampableInterface|ResourceInterface
+     */
+    private function findPage($slug, $partial)
+    {
+        /** @var PageRepository $repository */
+        $repository = $this->get('toro.repository.page');
+
+        /** @var PageInterface $page */
+        return $repository->findPageForDisplay([
+            'slug' => $slug,
+            'partial' => $partial,
+            'published' => true,
+            'locale' => $this->get('sylius.context.locale')->getLocaleCode(),
+            'channel' => $this->get('sylius.context.channel')->getChannel(),
+        ]);
+    }
+
+    /**
+     * @param string $locale
+     *
+     * @return bool
+     */
+    private function isValidLocal($locale)
+    {
+        if (1 !== preg_match('/^[a-z0-9@_\\.\\-]*$/i', $locale)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     * @param $locale
+     *
+     * @return string
+     */
+    private function transformLocale(TranslatorInterface $translator, $locale)
+    {
+        $theme = $this->get('sylius.context.theme')->getTheme();
+
+        if (null === $theme) {
+            return $locale;
+        }
+
+        if (null === $locale) {
+            $locale = $translator->getLocale();
+        }
+
+        $locale = $locale . '@' . str_replace('/', '-', $theme->getName());
+
+        return $locale;
+    }
+
+    /**
+     * @param array $messages
+     * @param array|null $subnode
+     * @param null $path
+     */
+    private function flatten(array &$messages, array $subnode = null, $path = null)
+    {
+        if (null === $subnode) {
+            $subnode = &$messages;
+        }
+
+        foreach ($subnode as $key => $value) {
+            if (is_array($value)) {
+                $nodePath = $path ? $path.'.'.$key : $key;
+                $this->flatten($messages, $value, $nodePath);
+                if (null === $path) {
+                    unset($messages[$key]);
+                }
+            } elseif (null !== $path) {
+                $messages[$path.'.'.$key] = $value;
+            }
+        }
+    }
+
+    /**
+     * @param array $translations
+     */
+    private function addTranslations(array $translations)
+    {
+        /** @var TranslatorInterface|Translator $translator */
+        $translator = $this->get('translator');
+
+        foreach ($translations as $code => $messages) {
+            if ($this->isValidLocal($code)) {
+                $this->flatten($messages);
+                $translator->getCatalogue($this->transformLocale($translator, $code))->add($messages);
+            }
+        }
+    }
+
+    public function partialAction(Request $request, $slug)
+    {
+        $page = $this->findPage($slug, true);
+
+        if (!$page && $this->container->getParameter('kernel.debug')) {
+            //throw new NotFoundHttpException("Not found page by slug: " . $slug);
+            return Response::create();
+        }
+
+        return self::viewAction($request, $page);
+    }
+
+    public function viewAction(Request $request, $slug)
+    {
+        // TODO: resource viewer
+        $page = is_object($slug) ? $slug : $this->findPage($slug, false);
+
+        if (!$page) {
+            throw new NotFoundHttpException("No page found");
+        }
+
+        $template = $request->attributes->get('template');
+        $templateStrategy = null;
+        $templateContent = null;
+        $templateVar = $this->metadata->getName();
+
+        // FIXME: with some cool idea!
+        if ($page instanceof PageInterface) {
+            if ($request->getBaseUrl() !== '/app_dev.php') {
+                $page->setBody(
+                    preg_replace('|/app_dev.php|', $request->getBaseUrl(), $page->getBody())
+                );
+            }
+
+            if ($page->isPartial()) {
+                $templateStrategy = 'partial';
+            }
+        }
+
+        if ($option = $page->getOptions()) {
+            $template = $option->getTemplate() ?: $template;
+            $templateStrategy = $option->getTemplateStrategy() ?: $templateStrategy;
+            $templateVar = $option->getTemplateVar($templateVar);
+
+            if ($option->isTranslatable()) {
+                $this->addTranslations($option->getTranslation());
+            }
+
+            if ($templating = trim($option->getTemplating())) {
+                $templateContent = $this->get('twig')->createTemplate($templating)->render([
+                    $templateVar => $page
+                ]);
+            }
+        }
+
+        if ('blank' === $templateStrategy) {
+            $template = 'ToroCmsBundle::blank.html.twig';
+        }
+
+        $view = View::create();
+
+        $view
+            ->setTemplate($template)
+            ->setData([
+                $templateVar => $page,
+                'template_content' => $templateContent,
+                'template_style' => $option ? $option->getStyle() : null,
+                'template_script' => $option ? $option->getScript() : null,
+            ])
+        ;
+
+        return $this->get('fos_rest.view_handler')->handle($view);
+    }
+}

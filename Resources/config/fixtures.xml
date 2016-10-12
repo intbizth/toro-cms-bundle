@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+                               http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="toro_cms.fixture_factory.page_example_factory" parent="toro.fixture.example_factory.locale_ware" class="Toro\Bundle\CmsBundle\Fixture\Factory\PageExampleFactory">
+            <argument id="toro.factory.page" type="service"/>
+            <argument id="toro.repository.page" type="service"/>
+            <argument id="toro.fixture_factory.image_upload_handler" type="service"/>
+            <argument id="doctrine_phpcr" type="service"/>
+            <argument>%cmf_media.persistence.phpcr.manager_name%</argument>
+            <argument>%cmf_media.persistence.phpcr.media_basepath%</argument>
+        </service>
+        <service id="toro_cms.fixture.page_fixture" class="Toro\Bundle\CmsBundle\Fixture\PageFixture">
+            <argument id="toro.manager.page" type="service"/>
+            <argument id="toro_cms.fixture_factory.page_example_factory" type="service"/>
+            <tag name="sylius_fixtures.fixture"/>
+        </service>
+    </services>
+</container>

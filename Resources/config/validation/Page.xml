@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+                                        http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
+
+    <class name="Toro\Bundle\CmsBundle\Model\Page">
+        <property name="translations">
+            <constraint name="Valid" />
+        </property>
+        <property name="channel">
+            <constraint name="NotBlank">
+                <option name="message">This value should not be blank.</option>
+                <option name="groups">
+                    <value>toro</value>
+                </option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

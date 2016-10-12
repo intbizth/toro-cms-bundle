@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+                                        http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
+
+    <class name="Toro\Bundle\CmsBundle\Model\PageTranslation">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">This value should not be blank.</option>
+                <option name="groups">
+                    <value>toro</value>
+                    <value>quick</value>
+                </option>
+            </constraint>
+            <constraint name="Length">
+                <option name="max">80</option>
+                <option name="maxMessage">This value is too long. It should have 80 characters or less.</option>
+                <option name="groups">toro</option>
+            </constraint>
+        </property>
+        <property name="slug">
+            <constraint name="NotBlank">
+                <option name="message">This value should not be blank.</option>
+                <option name="groups">
+                    <value>toro</value>
+                    <value>quick</value>
+                </option>
+            </constraint>
+            <constraint name="Length">
+                <option name="max">60</option>
+                <option name="maxMessage">This value is too long. It should have 60 characters or less.</option>
+                <option name="groups">toro</option>
+            </constraint>
+        </property>
+        <property name="body">
+            <constraint name="NotBlank">
+                <option name="message">This value should not be blank.</option>
+                <option name="groups">toro</option>
+            </constraint>
+        </property>
+    </class>
+
+</constraint-mapping>

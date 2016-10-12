@@ -1,0 +1,28 @@
+sylius_fixtures:
+    suites:
+        pages:
+            listeners:
+                logger: ~
+                temp_directory_purger: ~
+            fixtures:
+                page:
+                    priority: -1
+                    options:
+                        custom:
+                            -
+                                title:
+                                    th_TH: ทดสอบ
+                                    en_US: Demo
+                                slug:
+                                    th_TH: ทดสอบ
+                                    en_US: demo
+                                body:
+                                    th_TH: |
+                                        Demo Text with image 1 <img src="/app_dev.php/media/cache/resolve/strip/cms/media/pages/1.png" alt="demo1">
+                                        Demo Text with image 2 <img src="/app_dev.php/media/cache/resolve/strip/cms/media/pages/2.png" alt="demo2">
+                                        Demo Text with image 3 <img src="/app_dev.php/media/cache/resolve/strip/cms/media/pages/3.png" alt="demo3">
+                                    en_US: ~
+                                images:
+                                    - "@ToroCmsBundle/Resources/fixtures/demo/1.png"
+                                    - "@ToroCmsBundle/Resources/fixtures/demo/2.png"
+                                    - "@ToroCmsBundle/Resources/fixtures/demo/3.png"
