@@ -27,7 +27,7 @@ class YamlTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        return Yaml::parse(preg_replace('/\t/', '    ', $value));
+        return (array) Yaml::parse(preg_replace('/\t/', '    ', $value));
     }
 
     /**
