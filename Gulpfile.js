@@ -22,6 +22,9 @@ var paths = {
             nodeRoot + 'codemirror/mode/yaml/yaml.js',
             nodeRoot + 'codemirror/mode/css/css.js',
             nodeRoot + 'codemirror/mode/javascript/javascript.js',
+            '../../../vendor/toro/widget-bundle/Resources/public/js/waypoints.min.js',
+            '../../../vendor/toro/widget-bundle/Resources/public/js/inview.min.js',
+            '../../../vendor/toro/widget-bundle/Resources/public/js/widget.js',
             'Resources/private/js/**'
         ],
         sass: [
@@ -31,7 +34,8 @@ var paths = {
             'Resources/private/img/**'
         ],
         css: [
-            nodeRoot + 'codemirror/lib/codemirror.css'
+            nodeRoot + 'codemirror/lib/codemirror.css',
+            '../../../vendor/toro/widget-bundle/Resources/public/css/style.css'
         ]
     }
 };
