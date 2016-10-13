@@ -38,11 +38,11 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <many-to-one field="createdBy" target-entity="Sylius\Component\User\Model\UserInterface">
+        <many-to-one field="createdBy" target-entity="Toro\Bundle\AdminBundle\Model\AdminUserInterface">
             <gedmo:blameable on="create"/>
         </many-to-one>
 
-        <many-to-one field="updatedBy" target-entity="Sylius\Component\User\Model\UserInterface">
+        <many-to-one field="updatedBy" target-entity="Toro\Bundle\AdminBundle\Model\AdminUserInterface">
             <gedmo:blameable on="update"/>
         </many-to-one>
     </mapped-superclass>
