@@ -10,8 +10,13 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var uglifycss = require('gulp-uglifycss');
 
-var cmsRootPath = '../../../web/assets/cms/';
+var rootPath = '../../../web/assets/cms/';
 var nodeRoot = '../../../node_modules/';
+
+if ('dev' === env) {
+    rootPath = "../" + rootPath;
+    nodePath = "../" + nodePath;
+}
 
 var paths = {
     cms: {
@@ -41,7 +46,7 @@ gulp.task('cms-js', function () {
         .pipe(concat('app.js'))
         .pipe(gulpif(env === 'prod', uglify()))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(cmsRootPath + 'js/'))
+        .pipe(gulp.dest(rootPath + 'js/'))
     ;
 });
 
@@ -60,7 +65,7 @@ gulp.task('cms-css', function() {
         .pipe(concat('style.css'))
         .pipe(gulpif(env === 'prod', uglifycss()))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(cmsRootPath + 'css/'))
+        .pipe(gulp.dest(rootPath + 'css/'))
         .pipe(livereload())
     ;
 });
@@ -68,7 +73,7 @@ gulp.task('cms-css', function() {
 gulp.task('cms-img', function() {
     return gulp.src(paths.cms.img)
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(cmsRootPath + 'img/'))
+        .pipe(gulp.dest(rootPath + 'img/'))
     ;
 });
 
