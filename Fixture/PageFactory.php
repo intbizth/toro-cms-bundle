@@ -1,6 +1,6 @@
 <?php
 
-namespace Toro\Bundle\CmsBundle\Fixture\Factory;
+namespace Toro\Bundle\CmsBundle\Fixture;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
@@ -14,7 +14,7 @@ use Toro\Bundle\CmsBundle\Model\PageInterface;
 use Toro\Bundle\FixtureBundle\DataFixture\Factory\AbstractLocaleAwareFactory;
 use Toro\Bundle\FixtureBundle\DataFixture\Uploader\ImageUploadHelper;
 
-final class PageExampleFactory extends AbstractLocaleAwareFactory
+final class PageFactory extends AbstractLocaleAwareFactory
 {
     /**
      * @var FactoryInterface
