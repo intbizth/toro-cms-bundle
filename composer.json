@@ -19,7 +19,6 @@
         "aptoma/twig-markdown": "^2.0",
         "michelf/php-markdown": "^1.6",
         "suncat/mobile-detect-bundle": "1.0.*",
-        "symfony/framework-bundle": "^2.8",
         "symfony/form": "^2.8",
         "symfony/validator": "^2.8"
     },
