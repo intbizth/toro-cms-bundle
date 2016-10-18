@@ -197,4 +197,12 @@ class Page implements PageInterface
     {
         return $this->updatedBy;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCompileContent()
+    {
+        return $this->getBody();
+    }
 }

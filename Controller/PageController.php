@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Toro\Bundle\CmsBundle\Doctrine\ORM\PageRepository;
+use Toro\Bundle\CmsBundle\Model\CompileAwareContentInterface;
 use Toro\Bundle\CmsBundle\Model\OptionableInterface;
 use Toro\Bundle\CmsBundle\Model\PageInterface;
 
@@ -136,9 +137,10 @@ class PageController extends ResourceController
             throw new NotFoundHttpException("No page found");
         }
 
-        $template = $request->attributes->get('template');
+        $template = $request->get('template');
         $templateStrategy = null;
         $templateContent = null;
+        $pageContent = null;
         $templateVar = $this->metadata->getName();
 
         // FIXME: with some cool idea!
@@ -174,12 +176,25 @@ class PageController extends ResourceController
             $template = 'ToroCmsBundle::blank.html.twig';
         }
 
+        if (!$template) {
+            throw new \LogicException("Empty template file, please config under your routing. ");
+        }
+
         $view = View::create();
+
+        if ($page instanceof CompileAwareContentInterface) {
+            try {
+                $pageContent = $this->get('twig')->createTemplate($page->getCompileContent())->render([]);
+            } catch (\Twig_Error_Runtime $e) {
+                $pageContent = $e->getRawMessage();
+            }
+        }
 
         $view
             ->setTemplate($template)
             ->setData([
                 $templateVar => $page,
+                'page_content' => $pageContent,
                 'template_content' => $templateContent,
                 'template_style' => $option ? $option->getStyle() : null,
                 'template_script' => $option ? $option->getScript() : null,
