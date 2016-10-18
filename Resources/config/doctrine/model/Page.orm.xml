@@ -24,18 +24,6 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <many-to-one field="createdBy" target-entity="Toro\Bundle\AdminBundle\Model\AdminUserInterface">
-            <gedmo:blameable on="create"/>
-        </many-to-one>
-
-        <many-to-one field="updatedBy" target-entity="Toro\Bundle\AdminBundle\Model\AdminUserInterface">
-            <gedmo:blameable on="update"/>
-        </many-to-one>
-
-        <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
-            <join-column nullable="false"/>
-        </many-to-one>
-
         <one-to-one field="options" target-entity="Toro\Bundle\CmsBundle\Model\PageOptionInterface" orphan-removal="true">
             <cascade>
                 <cascade-all />

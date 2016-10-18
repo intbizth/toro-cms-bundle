@@ -2,7 +2,6 @@
 
 namespace Toro\Bundle\CmsBundle\Model;
 
-use Sylius\Component\Channel\Model\ChannelAwareInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\SlugAwareInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
@@ -14,7 +13,6 @@ interface PageInterface extends
     ResourceInterface,
     TranslatableInterface,
     OptionableInterface,
-    ChannelAwareInterface,
     SlugAwareInterface
 {
     /**

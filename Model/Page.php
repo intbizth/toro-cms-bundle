@@ -2,11 +2,8 @@
 
 namespace Toro\Bundle\CmsBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class Page implements PageInterface
 {
@@ -32,26 +29,9 @@ class Page implements PageInterface
      */
     protected $partial = true;
 
-    /**
-     * @var ChannelInterface
-     */
-    protected $channel;
-
-    /**
-     * @var UserInterface
-     */
-    private $createdBy;
-
-    /**
-     * @var UserInterface
-     */
-    private $updatedBy;
-
     public function __construct()
     {
         $this->initializeTranslationsCollection();
-
-        $this->routes = new ArrayCollection();
     }
 
     /**
@@ -140,62 +120,6 @@ class Page implements PageInterface
     public function setPublished($published)
     {
         $this->published = $published;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChannel()
-    {
-        return $this->channel;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setChannel(ChannelInterface $channel = null)
-    {
-        $this->channel = $channel;
-    }
-
-    /**
-     * Sets createdBy.
-     *
-     * @param  UserInterface $createdBy
-     */
-    public function setCreatedBy(UserInterface $createdBy)
-    {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * Returns createdBy.
-     *
-     * @return UserInterface
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Sets updatedBy.
-     *
-     * @param  UserInterface $updatedBy
-     */
-    public function setUpdatedBy(UserInterface $updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-    }
-
-    /**
-     * Returns updatedBy.
-     *
-     * @return UserInterface
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 
     /**

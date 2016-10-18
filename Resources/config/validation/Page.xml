@@ -9,13 +9,5 @@
         <property name="translations">
             <constraint name="Valid" />
         </property>
-        <property name="channel">
-            <constraint name="NotBlank">
-                <option name="message">This value should not be blank.</option>
-                <option name="groups">
-                    <value>toro</value>
-                </option>
-            </constraint>
-        </property>
     </class>
 </constraint-mapping>
