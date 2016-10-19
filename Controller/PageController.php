@@ -156,6 +156,14 @@ class PageController extends ResourceController
             }
         }
 
+        if ($page instanceof CompileAwareContentInterface) {
+            try {
+                $pageContent = $this->get('twig')->createTemplate($page->getCompileContent())->render([]);
+            } catch (\Twig_Error_Runtime $e) {
+                $pageContent = $e->getRawMessage();
+            }
+        }
+
         if ($option = $page->getOptions()) {
             $template = $option->getTemplate() ?: $template;
             $templateStrategy = $option->getTemplateStrategy() ?: $templateStrategy;
@@ -167,6 +175,7 @@ class PageController extends ResourceController
 
             if ($templating = trim($option->getTemplating())) {
                 $templateContent = $this->get('twig')->createTemplate($templating)->render([
+                    'page_content' => $pageContent,
                     $templateVar => $page
                 ]);
             }
@@ -181,14 +190,6 @@ class PageController extends ResourceController
         }
 
         $view = View::create();
-
-        if ($page instanceof CompileAwareContentInterface) {
-            try {
-                $pageContent = $this->get('twig')->createTemplate($page->getCompileContent())->render([]);
-            } catch (\Twig_Error_Runtime $e) {
-                $pageContent = $e->getRawMessage();
-            }
-        }
 
         $view
             ->setTemplate($template)
