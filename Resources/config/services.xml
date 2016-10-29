@@ -8,7 +8,6 @@
         <import resource="routers.xml"/>
         <import resource="twigs.xml"/>
         <import resource="themes.xml"/>
-        <import resource="fixtures.xml"/>
     </imports>
 
     <services>
