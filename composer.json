@@ -14,8 +14,10 @@
     "require": {
         "php": "^5.6|^7.0",
 
-        "knplabs/knp-menu-bundle": "^2.1",
+        "white-october/pagerfanta-bundle": "~1.0",
         "aptoma/twig-markdown": "^2.0",
+        "michelf/php-markdown": "^1.6",
+        "knplabs/knp-menu-bundle": "^2.1",
         "suncat/mobile-detect-bundle": "1.0.*"
     },
     "require-dev": {
