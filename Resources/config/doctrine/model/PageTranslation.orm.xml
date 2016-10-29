@@ -21,7 +21,7 @@
             <gedmo:versioned/>
         </field>
 
-        <field name="body" column="body" type="text">
+        <field name="body" column="body" type="text" nullable="true">
             <gedmo:versioned/>
         </field>
     </mapped-superclass>

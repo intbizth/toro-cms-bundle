@@ -34,12 +34,6 @@
                 <option name="groups">toro</option>
             </constraint>
         </property>
-        <property name="body">
-            <constraint name="NotBlank">
-                <option name="message">This value should not be blank.</option>
-                <option name="groups">toro</option>
-            </constraint>
-        </property>
     </class>
 
 </constraint-mapping>
