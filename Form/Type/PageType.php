@@ -26,7 +26,7 @@ class PageType extends AbstractResourceType
             ])
             ->add('options', PageOptionType::class)
             ->add('translations', ResourceTranslationsType::class, [
-                'type' => PageTranslationType::class
+                'type' => 'sylius_translations'
             ])
         ;
     }
