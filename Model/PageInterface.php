@@ -13,7 +13,8 @@ interface PageInterface extends
     ResourceInterface,
     TranslatableInterface,
     OptionableInterface,
-    SlugAwareInterface
+    SlugAwareInterface,
+    ViewerableInterface
 {
     /**
      * @return string
