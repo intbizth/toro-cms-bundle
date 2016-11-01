@@ -189,6 +189,12 @@ class PageController extends ResourceController
             throw new \LogicException("Empty template file, please config under your routing. ");
         }
 
+        $this->get('toro_cms.provider.resource_viewer')
+            ->fireEvent($page)
+        ;
+
+        $request->get('manager', $this->get('toro.manager.page'))->flush();
+
         $view = View::create();
 
         $view

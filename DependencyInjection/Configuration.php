@@ -23,6 +23,8 @@ use Toro\Bundle\CmsBundle\Model\PageOption;
 use Toro\Bundle\CmsBundle\Model\PageOptionInterface;
 use Toro\Bundle\CmsBundle\Model\PageTranslation;
 use Toro\Bundle\CmsBundle\Model\PageTranslationInterface;
+use Toro\Bundle\CmsBundle\Model\ResourceViewer;
+use Toro\Bundle\CmsBundle\Model\ResourceViewerInterface;
 use Toro\Bundle\CmsBundle\ToroCmsBundle;
 
 class Configuration implements ConfigurationInterface
@@ -192,6 +194,21 @@ class Configuration implements ConfigurationInterface
                                             ->prototype('scalar')->end()
                                             ->defaultValue([ToroCmsBundle::APPLICATION_NAME])
                                         ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('resource_viewer')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(ResourceViewer::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(ResourceViewerInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(EntityRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                     ->end()
                                 ->end()
                             ->end()

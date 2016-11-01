@@ -24,5 +24,19 @@
         <service id="toro_cms.event_subscriber.discriminator_entity_type" class="Toro\Bundle\CmsBundle\EventListener\DiscriminatorEntityTypeSubscriber">
             <tag name="doctrine.event_subscriber" priority="8192"/>
         </service>
+
+        <service id="toro_cms.provider.resource_viewer" class="Toro\Bundle\CmsBundle\Provider\ResourceViewerProvider">
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="toro.manager.resource_viewer"/>
+            <argument type="service" id="toro.repository.resource_viewer"/>
+            <argument type="service" id="toro.factory.resource_viewer"/>
+            <argument type="service" id="request_stack"/>
+        </service>
+
+        <service id="toro_cms.event_listener.resource_viewer" class="Toro\Bundle\CmsBundle\EventListener\ResourceViewerListener">
+            <argument type="service" id="toro_cms.provider.resource_viewer"/>
+            <tag name="kernel.event_listener" event="cms_resource_viewer" method="increase"/>
+        </service>
     </services>
 </container>
