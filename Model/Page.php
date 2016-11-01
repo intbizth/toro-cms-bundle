@@ -9,6 +9,7 @@ class Page implements PageInterface
 {
     use OptionableTrait;
     use TimestampableTrait;
+    use ViewerableTrait;
 
     use TranslatableTrait {
         __construct as private initializeTranslationsCollection;
