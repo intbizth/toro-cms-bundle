@@ -193,7 +193,7 @@ class PageController extends ResourceController
             ->fireEvent($page)
         ;
 
-        $request->get('manager', $this->get('toro.manager.page'))->flush();
+        $this->get('toro.manager.page')->flush();
 
         $view = View::create();
 
