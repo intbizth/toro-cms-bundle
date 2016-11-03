@@ -29,7 +29,8 @@ var paths = {
         nodePath + 'codemirror/mode/yaml/yaml.js',
         nodePath + 'codemirror/mode/css/css.js',
         nodePath + 'codemirror/mode/javascript/javascript.js',
-        'Resources/private/js/**'
+        'Resources/private/js/partial/**',
+        'Resources/private/js/app.js'
     ],
     sass: [
         'Resources/private/sass/**'
