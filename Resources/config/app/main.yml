@@ -1,3 +1,3 @@
 imports:
-    - { resource: sylius_theme.yml }
-    - { resource: fixtures/pages.yml }
+    - { resource: "@ToroCmsBundle/Resources/config/app/sylius_theme.yml" }
+    - { resource: "@ToroCmsBundle/Resources/config/app/fixtures/pages.yml" }
