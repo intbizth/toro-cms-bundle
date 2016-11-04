@@ -9,6 +9,9 @@ use Toro\Bundle\MediaBundle\Form\Type\MceType;
 
 class PageTranslationType extends AbstractResourceType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -25,5 +28,13 @@ class PageTranslationType extends AbstractResourceType
                 'label' => 'Body',
             ])
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'toro_page_translations';
     }
 }

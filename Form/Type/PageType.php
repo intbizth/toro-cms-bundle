@@ -9,6 +9,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PageType extends AbstractResourceType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -26,11 +29,14 @@ class PageType extends AbstractResourceType
             ])
             ->add('options', PageOptionType::class)
             ->add('translations', ResourceTranslationsType::class, [
-                'type' => 'sylius_translations'
+                'type' => 'toro_page_translations'
             ])
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'toro_page';
