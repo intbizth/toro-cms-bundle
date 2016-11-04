@@ -1,0 +1,9 @@
+{{ form_errors(form) }}
+
+{{ form_row(form.translations, { exclude: ['body'] }) }}
+
+<div class="pad-all">
+    {{ form_row(form.channel) }}
+    {{ form_row(form.published) }}
+    {{ form_row(form.partial) }}
+</div>
