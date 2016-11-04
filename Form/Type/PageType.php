@@ -29,7 +29,7 @@ class PageType extends AbstractResourceType
             ])
             ->add('options', PageOptionType::class)
             ->add('translations', ResourceTranslationsType::class, [
-                'type' => 'toro_page_translations'
+                'type' => 'toro_page_translation'
             ])
         ;
     }

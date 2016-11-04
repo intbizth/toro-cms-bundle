@@ -35,6 +35,6 @@ class PageTranslationType extends AbstractResourceType
      */
     public function getName()
     {
-        return 'toro_page_translations';
+        return 'toro_page_translation';
     }
 }
