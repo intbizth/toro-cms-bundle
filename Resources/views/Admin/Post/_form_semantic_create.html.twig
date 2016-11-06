@@ -1,0 +1,19 @@
+{{ form_errors(form) }}
+
+<div class="ui styled fluid accordion" style="margin-bottom: 10px;">
+    {% for locale, translationForm in form.translations %}
+        <div class="title{% if 0 == loop.index0 %} active{% endif %}">
+            <i class="dropdown icon"></i>
+            <i class="{{ locale|slice(3, 2)|lower }} flag"></i> {{ locale|sylius_locale_name }}
+        </div>
+        <div class="content{% if 0 == loop.index0 %} active{% endif %}">
+            {{ form_row(translationForm.title) }}
+            {{ form_row(translationForm.slug) }}
+        </div>
+    {% endfor %}
+</div>
+
+{{ form_row(form.channel) }}
+{{ form_row(form.type) }}
+{{ form_row(form.publishedAt) }}
+{{ form_row(form.published) }}

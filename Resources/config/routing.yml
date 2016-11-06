@@ -1,3 +1,11 @@
+toro_cms_post:
+    path: /post/{slug}
+    defaults:
+        _controller: toro.controller.page:viewAction
+        template: ToroCmsBundle::show.html.twig
+    requirements:
+        slug: .+
+
 toro_cms_partial_page:
     path: /_partial/page/{slug}
     defaults:

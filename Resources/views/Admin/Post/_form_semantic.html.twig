@@ -19,6 +19,7 @@
             <div class="content{% if 0 == loop.index0 %} active{% endif %}">
                 {{ form_row(translationForm.title) }}
                 {{ form_row(translationForm.slug) }}
+                {{ form_row(translationForm.description) }}
                 {{ form_row(translationForm.body) }}
             </div>
         {% endfor %}
@@ -26,7 +27,7 @@
 </div>
 
 <div class="ui bottom attached tab segment"
-     data-code-mirror="page-templating"
+     data-code-mirror="post-templating"
      data-code-mirror-id="{{ form.options.templating.vars.id }}"
      data-code-mirror-mode="twig"
      data-tab="templating">
@@ -34,7 +35,7 @@
 </div>
 
 <div class="ui bottom attached tab segment"
-     data-code-mirror="page-style"
+     data-code-mirror="post-style"
      data-code-mirror-id="{{ form.options.style.vars.id }}"
      data-code-mirror-mode="css"
      data-tab="style">
@@ -42,7 +43,7 @@
 </div>
 
 <div class="ui bottom attached tab segment"
-     data-code-mirror="page-script"
+     data-code-mirror="post-script"
      data-code-mirror-id="{{ form.options.script.vars.id }}"
      data-code-mirror-mode="javascript"
      data-tab="script">
@@ -50,7 +51,7 @@
 </div>
 
 <div class="ui bottom attached tab segment"
-     data-code-mirror="page-translation"
+     data-code-mirror="post-translation"
      data-code-mirror-id="{{ form.options.translation.vars.id }}"
      data-code-mirror-mode="yaml"
      data-tab="translation">
@@ -58,7 +59,7 @@
 </div>
 
 <div class="ui bottom attached tab segment"
-     data-code-mirror="page-data"
+     data-code-mirror="post-data"
      data-code-mirror-id="{{ form.options.data.vars.id }}"
      data-code-mirror-mode="yaml"
      data-tab="data">
@@ -66,7 +67,8 @@
 </div>
 
 {{ form_row(form.channel) }}
+{{ form_row(form.type) }}
+{{ form_row(form.publishedAt) }}
 {{ form_row(form.published) }}
-{{ form_row(form.partial) }}
 
-{{ toro_tinymce({mediaPath: 'page-' ~ page.id}) }}
+{{ toro_tinymce({mediaPath: 'post-' ~ post.id}) }}
