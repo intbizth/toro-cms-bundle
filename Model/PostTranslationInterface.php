@@ -40,4 +40,14 @@ interface PostTranslationInterface extends ResourceInterface
      * @param string $body
      */
     public function setBody($body);
+
+    /**
+     * @return string
+     */
+    public function getVdoPath();
+
+    /**
+     * @param string $vdoPath
+     */
+    public function setVdoPath($vdoPath);
 }

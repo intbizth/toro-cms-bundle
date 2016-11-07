@@ -4,6 +4,9 @@ namespace Toro\Bundle\CmsBundle\Model;
 
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
+use Symfony\Cmf\Bundle\MediaBundle\ImageInterface;
+use Symfony\Cmf\Bundle\MediaBundle\Model\ImageRepositoryInterface;
+use Toro\Bundle\MediaBundle\Meta\MediaReference;
 
 class Post implements PostInterface
 {
@@ -34,6 +37,16 @@ class Post implements PostInterface
      * @var string
      */
     protected $type = self::TYPE_CONTENT;
+
+    /**
+     * @var ImageInterface
+     */
+    protected $cover;
+
+    /**
+     * @var string
+     */
+    protected $coverId;
 
     public function __construct()
     {
@@ -150,5 +163,51 @@ class Post implements PostInterface
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCover()
+    {
+        return $this->cover;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCover(ImageInterface $cover = null)
+    {
+        $this->cover = $cover;
+
+        // `logo` no mapped for doctrine
+        // we need to trig some field for doctrine changed tracker
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMediaMetaReferences()
+    {
+        return array(
+            new MediaReference('/post-' . $this->id, 'coverId', $this->coverId, $this->cover),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVdoPath()
+    {
+        return $this->translate()->getVdoPath();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVdoPath($vdoPath)
+    {
+        $this->translate()->setVdoPath($vdoPath);
     }
 }

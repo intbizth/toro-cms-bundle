@@ -1,74 +1,82 @@
 {{ form_errors(form) }}
 
-<div class="ui top attached tabular menu">
-    <a class="item active" data-tab="content">Content</a>
-    <a class="item code-mirror-tab" data-tab="templating">Template</a>
-    <a class="item code-mirror-tab" data-tab="style">Style</a>
-    <a class="item code-mirror-tab" data-tab="script">Script</a>
-    <a class="item code-mirror-tab" data-tab="translation">Translation</a>
-    <a class="item code-mirror-tab" data-tab="data">Option</a>
-</div>
+<div class="ui grid">
+    <div class="four wide column">
+        {{ form_row(form.channel) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.publishedAt) }}
+        {{ form_row(form.published) }}
+        {{ form_row(form.cover) }}
+    </div>
 
-<div class="ui bottom attached tab segment active" data-tab="content">
-    <div class="ui styled fluid accordion">
-        {% for locale, translationForm in form.translations %}
-            <div class="title{% if 0 == loop.index0 %} active{% endif %}">
-                <i class="dropdown icon"></i>
-                <i class="{{ locale|slice(3, 2)|lower }} flag"></i> {{ locale|sylius_locale_name }}
+    <div class="twelve wide column">
+        <div class="ui top attached tabular menu">
+            <a class="item active" data-tab="content">Content</a>
+            <a class="item code-mirror-tab" data-tab="templating">Template</a>
+            <a class="item code-mirror-tab" data-tab="style">Style</a>
+            <a class="item code-mirror-tab" data-tab="script">Script</a>
+            <a class="item code-mirror-tab" data-tab="translation">Translation</a>
+            <a class="item code-mirror-tab" data-tab="data">Option</a>
+        </div>
+
+        <div class="ui bottom attached tab segment active" data-tab="content">
+            <div class="ui styled fluid accordion">
+                {% for locale, translationForm in form.translations %}
+                    <div class="title{% if 0 == loop.index0 %} active{% endif %}">
+                        <i class="dropdown icon"></i>
+                        <i class="{{ locale|slice(3, 2)|lower }} flag"></i> {{ locale|sylius_locale_name }}
+                    </div>
+                    <div class="content{% if 0 == loop.index0 %} active{% endif %}">
+                        {{ form_row(translationForm.title) }}
+                        {{ form_row(translationForm.slug) }}
+                        {{ form_row(translationForm.vdoPath) }}
+                        {{ form_row(translationForm.description) }}
+                        {{ form_row(translationForm.body) }}
+                    </div>
+                {% endfor %}
             </div>
-            <div class="content{% if 0 == loop.index0 %} active{% endif %}">
-                {{ form_row(translationForm.title) }}
-                {{ form_row(translationForm.slug) }}
-                {{ form_row(translationForm.description) }}
-                {{ form_row(translationForm.body) }}
-            </div>
-        {% endfor %}
+        </div>
+
+        <div class="ui bottom attached tab segment"
+             data-code-mirror="post-templating"
+             data-code-mirror-id="{{ form.options.templating.vars.id }}"
+             data-code-mirror-mode="twig"
+             data-tab="templating">
+            {{ form_widget(form.options.templating) }}
+        </div>
+
+        <div class="ui bottom attached tab segment"
+             data-code-mirror="post-style"
+             data-code-mirror-id="{{ form.options.style.vars.id }}"
+             data-code-mirror-mode="css"
+             data-tab="style">
+            {{ form_widget(form.options.style) }}
+        </div>
+
+        <div class="ui bottom attached tab segment"
+             data-code-mirror="post-script"
+             data-code-mirror-id="{{ form.options.script.vars.id }}"
+             data-code-mirror-mode="javascript"
+             data-tab="script">
+            {{ form_widget(form.options.script) }}
+        </div>
+
+        <div class="ui bottom attached tab segment"
+             data-code-mirror="post-translation"
+             data-code-mirror-id="{{ form.options.translation.vars.id }}"
+             data-code-mirror-mode="yaml"
+             data-tab="translation">
+            {{ form_widget(form.options.translation) }}
+        </div>
+
+        <div class="ui bottom attached tab segment"
+             data-code-mirror="post-data"
+             data-code-mirror-id="{{ form.options.data.vars.id }}"
+             data-code-mirror-mode="yaml"
+             data-tab="data">
+            {{ form_widget(form.options.data) }}
+        </div>
     </div>
 </div>
-
-<div class="ui bottom attached tab segment"
-     data-code-mirror="post-templating"
-     data-code-mirror-id="{{ form.options.templating.vars.id }}"
-     data-code-mirror-mode="twig"
-     data-tab="templating">
-    {{ form_widget(form.options.templating) }}
-</div>
-
-<div class="ui bottom attached tab segment"
-     data-code-mirror="post-style"
-     data-code-mirror-id="{{ form.options.style.vars.id }}"
-     data-code-mirror-mode="css"
-     data-tab="style">
-    {{ form_widget(form.options.style) }}
-</div>
-
-<div class="ui bottom attached tab segment"
-     data-code-mirror="post-script"
-     data-code-mirror-id="{{ form.options.script.vars.id }}"
-     data-code-mirror-mode="javascript"
-     data-tab="script">
-    {{ form_widget(form.options.script) }}
-</div>
-
-<div class="ui bottom attached tab segment"
-     data-code-mirror="post-translation"
-     data-code-mirror-id="{{ form.options.translation.vars.id }}"
-     data-code-mirror-mode="yaml"
-     data-tab="translation">
-    {{ form_widget(form.options.translation) }}
-</div>
-
-<div class="ui bottom attached tab segment"
-     data-code-mirror="post-data"
-     data-code-mirror-id="{{ form.options.data.vars.id }}"
-     data-code-mirror-mode="yaml"
-     data-tab="data">
-    {{ form_widget(form.options.data) }}
-</div>
-
-{{ form_row(form.channel) }}
-{{ form_row(form.type) }}
-{{ form_row(form.publishedAt) }}
-{{ form_row(form.published) }}
 
 {{ toro_tinymce({mediaPath: 'post-' ~ post.id}) }}

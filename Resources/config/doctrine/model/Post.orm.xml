@@ -7,14 +7,17 @@
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <mapped-superclass name="Toro\Bundle\CmsBundle\Model\Post" table="toro_cms_post">
+        <gedmo:reference field="cover" identifier="coverId" type="document"
+                         class="Symfony\Cmf\Bundle\MediaBundle\Doctrine\Phpcr\Image" reference="referenceOne"/>
 
         <id name="id" column="id" type="integer">
-            <generator strategy="AUTO" />
+            <generator strategy="AUTO"/>
         </id>
 
-        <field name="published" type="boolean" nullable="false" />
-        <field name="publishedAt" type="datetime" nullable="true" />
-        <field name="type" type="string" nullable="true" />
+        <field name="published" type="boolean" nullable="false"/>
+        <field name="publishedAt" type="datetime" nullable="true"/>
+        <field name="type" type="string" nullable="true"/>
+        <field name="coverId" type="string" nullable="true"/>
 
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>
@@ -24,9 +27,10 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <one-to-one field="options" target-entity="Toro\Bundle\CmsBundle\Model\PostOptionInterface" orphan-removal="true">
+        <one-to-one field="options" target-entity="Toro\Bundle\CmsBundle\Model\PostOptionInterface"
+                    orphan-removal="true">
             <cascade>
-                <cascade-all />
+                <cascade-all/>
             </cascade>
         </one-to-one>
     </mapped-superclass>

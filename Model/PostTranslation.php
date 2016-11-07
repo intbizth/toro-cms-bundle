@@ -32,6 +32,11 @@ class PostTranslation extends AbstractTranslation implements PostTranslationInte
     protected $body;
 
     /**
+     * @var string
+     */
+    protected $vdoPath;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -101,5 +106,21 @@ class PostTranslation extends AbstractTranslation implements PostTranslationInte
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVdoPath()
+    {
+        return $this->vdoPath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVdoPath($vdoPath)
+    {
+        $this->vdoPath = $vdoPath;
     }
 }
