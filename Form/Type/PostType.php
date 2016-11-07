@@ -49,10 +49,6 @@ class PostType extends AbstractResourceType
                 'required' => false,
                 'label' => 'Cover',
             ])
-            ->add('vdoPath', TextType::class, [
-                'required' => false,
-                'label' => 'VDO Path',
-            ])
         ;
     }
 

@@ -32,6 +32,10 @@ class PostTranslationType extends AbstractResourceType
                 'required' => true,
                 'label' => 'Body',
             ])
+            ->add('vdoPath', TextType::class, [
+                'required' => false,
+                'label' => 'VDO Path',
+            ])
         ;
     }
 
