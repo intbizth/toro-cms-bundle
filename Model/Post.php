@@ -112,6 +112,22 @@ class Post implements PostInterface
     /**
      * {@inheritdoc}
      */
+    public function getDescription()
+    {
+        return $this->translate()->getDescription();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDescription($description)
+    {
+        $this->translate()->setDescription($description);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isPublished()
     {
         return $this->published;

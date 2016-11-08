@@ -16,6 +16,7 @@ interface PostInterface extends
     OptionableInterface,
     SlugAwareInterface,
     ViewerableInterface,
+    PostTranslationInterface,
     MediaAwareInterface
 {
     const TYPE_CONTENT = 'content';
