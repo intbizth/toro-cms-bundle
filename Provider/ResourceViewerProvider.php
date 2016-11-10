@@ -91,10 +91,10 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $this->manager->persist($rv);
         $this->manager->flush($rv);
 
-        $table = $manager->getClassMetadata(get_class($object))->getTableName();
+        $table = $manager->getClassMetadata(get_class($resource))->getTableName();
 
         $manager->getConnection()->exec(
-            sprintf('UPDATE %s SET viewers = %s WHERE id = %s', $table, $object->getViewers(), $object->getId())
+            sprintf('UPDATE %s SET viewers = %s WHERE id = %s', $table, $resource->getViewers(), $resource->getId())
         );
     }
 }
