@@ -9,10 +9,5 @@ interface ResourceViewerProviderInterface
     /**
      * @param ViewerableInterface $resource
      */
-    public function fireEvent(ViewerableInterface $resource);
-
-    /**
-     * @param ViewerableInterface $resource
-     */
     public function increase(ViewerableInterface $resource);
 }

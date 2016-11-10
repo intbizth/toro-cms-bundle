@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Toro\Bundle\CmsBundle\Doctrine\ORM\PageRepository;
-use Toro\Bundle\CmsBundle\Model\BlameableInterface;
 use Toro\Bundle\CmsBundle\Model\CompileAwareContentInterface;
 use Toro\Bundle\CmsBundle\Model\OptionableInterface;
 use Toro\Bundle\CmsBundle\Model\PageInterface;
@@ -190,21 +189,11 @@ class PageController extends ResourceController
             throw new \LogicException("Empty template file, please config under your routing. ");
         }
 
-        if ($page instanceof BlameableInterface) {
-            $this->get('stof_doctrine_extensions.listener.blameable')
-                ->setUserValue($page->getUpdatedBy())
-            ;
-        }
+        $this->get('toro_cms.provider.resource_viewer')->increase(
+            $page, $request->get('manager', $this->get('toro.manager.page'))
+        );
 
-        $this->get('toro_cms.provider.resource_viewer')
-            ->fireEvent($page)
-        ;
-
-        $request->get('manager', $this->get('toro.manager.page'))->flush();
-
-        $view = View::create();
-
-        $view
+        $view = View::create()
             ->setTemplate($template)
             ->setData([
                 $templateVar => $page,

@@ -33,10 +33,5 @@
             <argument type="service" id="toro.factory.resource_viewer"/>
             <argument type="service" id="request_stack"/>
         </service>
-
-        <service id="toro_cms.event_listener.resource_viewer" class="Toro\Bundle\CmsBundle\EventListener\ResourceViewerListener">
-            <argument type="service" id="toro_cms.provider.resource_viewer"/>
-            <tag name="kernel.event_listener" event="cms_resource_viewer" method="increase"/>
-        </service>
     </services>
 </container>

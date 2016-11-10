@@ -64,15 +64,7 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function fireEvent(ViewerableInterface $resource)
-    {
-        $this->eventDispatcher->dispatch('cms_resource_viewer', new GenericEvent($resource));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function increase(ViewerableInterface $resource)
+    public function increase(ViewerableInterface $resource, ObjectManager $manager)
     {
         if (!$request = $this->requestStack->getCurrentRequest()) {
             return;
@@ -97,6 +89,12 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         }
 
         $this->manager->persist($rv);
-        $this->manager->flush();
+        $this->manager->flush($rv);
+
+        $table = $manager->getClassMetadata(get_class($object))->getTableName();
+
+        $manager->getConnection()->exec(
+            sprintf('UPDATE %s SET viewers = %s WHERE id = %s', $table, $object->getViewers(), $object->getId())
+        );
     }
 }
