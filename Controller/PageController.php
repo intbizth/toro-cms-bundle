@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
-use Toro\Bundle\CmsBundle\Doctrine\ORM\PageRepository;
+use Toro\Bundle\CmsBundle\Doctrine\ORM\PageFinderRepositoryInterface;
 use Toro\Bundle\CmsBundle\Model\CompileAwareContentInterface;
 use Toro\Bundle\CmsBundle\Model\OptionableInterface;
 use Toro\Bundle\CmsBundle\Model\PageInterface;
@@ -19,25 +19,9 @@ use Toro\Bundle\CmsBundle\Model\PageInterface;
 class PageController extends ResourceController
 {
     /**
-     * @param string $slug
-     * @param boolean $partial
-     *
-     * @return PageInterface|OptionableInterface|TimestampableInterface|ResourceInterface
+     * @var PageFinderRepositoryInterface
      */
-    private function findPage($slug, $partial)
-    {
-        /** @var PageRepository $repository */
-        $repository = $this->get('toro.repository.page');
-
-        /** @var PageInterface $page */
-        return $repository->findPageForDisplay([
-            'slug' => $slug,
-            'partial' => $partial,
-            'published' => true,
-            'locale' => $this->get('sylius.context.locale')->getLocaleCode(),
-            'channel' => $this->get('sylius.context.channel')->getChannel(),
-        ]);
-    }
+    protected $repository;
 
     /**
      * @param string $locale
@@ -116,12 +100,26 @@ class PageController extends ResourceController
         }
     }
 
+    /**
+     * @param string $slug
+     * @param boolean $partial
+     *
+     * @return PageInterface|OptionableInterface|TimestampableInterface|ResourceInterface
+     */
+    private function findPage($slug, $partial)
+    {
+        return $this->repository->findPageForDisplay([
+            'slug' => $slug,
+            'partial' => $partial,
+            'published' => true,
+            'locale' => $this->get('sylius.context.locale')->getLocaleCode(),
+            'channel' => $this->get('sylius.context.channel')->getChannel(),
+        ]);
+    }
+
     public function partialAction(Request $request, $slug)
     {
-        $page = $this->findPage($slug, true);
-
-        if (!$page && $this->container->getParameter('kernel.debug')) {
-            //throw new NotFoundHttpException("Not found page by slug: " . $slug);
+        if (!$page = $this->findPage($slug, true)) {
             return Response::create();
         }
 
@@ -130,7 +128,6 @@ class PageController extends ResourceController
 
     public function viewAction(Request $request, $slug)
     {
-        // TODO: resource viewer
         $page = is_object($slug) ? $slug : $this->findPage($slug, false);
 
         if (!$page) {
@@ -189,6 +186,7 @@ class PageController extends ResourceController
             throw new \LogicException("Empty template file, please config under your routing. ");
         }
 
+        // increase viewer
         $this->get('toro_cms.provider.resource_viewer')->increase(
             $page, $request->get('manager', $this->get('toro.manager.page'))
         );
@@ -204,6 +202,8 @@ class PageController extends ResourceController
             ])
         ;
 
-        return $this->get('fos_rest.view_handler')->handle($view);
+        $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
+
+        return $this->viewHandler->handle($configuration, $view);
     }
 }
