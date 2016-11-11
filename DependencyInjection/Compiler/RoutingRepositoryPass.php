@@ -12,14 +12,16 @@ class RoutingRepositoryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasParameter('toro.repository_by_classes') &&
-            $container->hasDefinition('toro.route_provider')) {
-            $repositoryByClasses = $container->getParameter('toro.repository_by_classes');
-            $routeProvider = $container->getDefinition('toro.route_provider');
+        if ($container->hasParameter('toro.options.matcher_class')) {
+            $container
+                ->setParameter('router.options.matcher_class', $container->getParameter('toro.options.matcher_class'))
+            ;
+        }
 
-            foreach ($repositoryByClasses as $class => $repository) {
-                $routeProvider->addMethodCall('addRepository', [$class, $repository]);
-            }
+        if ($container->hasParameter('toro.options.matcher_base_class')) {
+            $container
+                ->setParameter('router.options.matcher_base_class', $container->getParameter('toro.options.matcher_base_class'))
+            ;
         }
     }
 }

@@ -111,7 +111,6 @@ class PageController extends ResourceController
         return $this->repository->findPageForDisplay([
             'slug' => $slug,
             'partial' => $partial,
-            'published' => true,
             'locale' => $this->get('sylius.context.locale')->getLocaleCode(),
             'channel' => $this->get('sylius.context.channel')->getChannel(),
         ]);

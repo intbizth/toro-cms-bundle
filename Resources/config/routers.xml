@@ -4,4 +4,15 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services
                                http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="toro.options.matcher_class">Toro\Bundle\CmsBundle\Routing\UrlMatcher</parameter>
+        <parameter key="toro.options.matcher_base_class">Toro\Bundle\CmsBundle\Routing\UrlMatcher</parameter>
+    </parameters>
+
+    <services>
+        <service id="toro.router" class="Toro\Bundle\CmsBundle\Routing\Router" decorates="router">
+            <argument type="service" id="toro.router.inner"/>
+            <argument type="service" id="service_container"/>
+        </service>
+    </services>
 </container>
