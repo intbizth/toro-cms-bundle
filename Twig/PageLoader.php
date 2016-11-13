@@ -103,9 +103,9 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
     {
         try {
             return $this->findTemplate($name)
-                    ->getOptions()->getUpdatedAt()
-                    ->getTimestamp() <= $time
-                ;
+                ->getOptions()->getUpdatedAt()
+                ->getTimestamp() <= $time
+            ;
         } catch (\Exception $exception) {
             return $this->decoratedLoader->isFresh($name, $time);
         }
@@ -139,6 +139,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
         if (array_key_exists($slug, $this->cache)) {
             if ($this->templates[$slug] === $logicalName) {
                 $this->addTwigGlobalVar($this->cache[$slug]);
+
                 return $this->cache[$slug];
             }
 
@@ -146,7 +147,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
         }
 
         $this->templates[$slug] = $logicalName;
-        $this->cache[$slug] = $this->findPage($slug);
+        $this->cache[$slug] = $page = $this->findPage($slug);
 
         $this->addTwigGlobalVar($page);
 
@@ -163,7 +164,11 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 
         if ($page instanceof CompileAwareContentInterface) {
             try {
-                $pageContent = $twig->createTemplate($page->getCompileContent())->render([]);
+                $pageContent = (string) $page->getCompileContent();
+
+                if (!empty($pageContent)) {
+                    $pageContent = $twig->createTemplate($pageContent)->render([]);
+                }
             } catch (\Twig_Error_Runtime $e) {
                 $pageContent = $e->getRawMessage();
             }

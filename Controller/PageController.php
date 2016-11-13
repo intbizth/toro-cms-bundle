@@ -154,7 +154,11 @@ class PageController extends ResourceController
 
         if ($page instanceof CompileAwareContentInterface) {
             try {
-                $pageContent = $this->get('twig')->createTemplate($page->getCompileContent())->render([]);
+                $pageContent = (string) $page->getCompileContent();
+
+                if (!empty($pageContent)) {
+                    $pageContent = $this->get('twig')->createTemplate($pageContent)->render([]);
+                }
             } catch (\Twig_Error_Runtime $e) {
                 $pageContent = $e->getRawMessage();
             }
