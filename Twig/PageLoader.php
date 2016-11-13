@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Toro\Bundle\CmsBundle\Doctrine\ORM\PageRepositoryInterface;
+use Toro\Bundle\CmsBundle\Model\CompileAwareContentInterface;
 use Toro\Bundle\CmsBundle\Model\PageInterface;
 
 class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
@@ -154,11 +155,22 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 
     private function addTwigGlobalVar(PageInterface $page)
     {
+        $twig = $this->container->get('twig');
+
         if ($page->getOptions()->isTranslatable()) {
             $this->addTranslations($page->getOptions()->getTranslation());
         }
 
-        $this->container->get('twig')->addGlobal('page', $page);
+        if ($page instanceof CompileAwareContentInterface) {
+            try {
+                $pageContent = $twig->createTemplate($page->getCompileContent())->render([]);
+            } catch (\Twig_Error_Runtime $e) {
+                $pageContent = $e->getRawMessage();
+            }
+        }
+
+        $twig->addGlobal('page', $page);
+        $twig->addGlobal('page_content', $pageContent);
     }
 
     /**
@@ -213,6 +225,8 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 
         throw new \InvalidArgumentException();
     }
+
+
 
     /**
      * @param string $locale
