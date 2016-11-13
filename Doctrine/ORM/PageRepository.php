@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Channel\Model\ChannelInterface;
 
-class PageRepository extends EntityRepository implements PageFinderRepositoryInterface
+class PageRepository extends EntityRepository implements PageRepositoryInterface, PageFinderRepositoryInterface
 {
     protected function useCache(QueryBuilder $queryBuilder, $enabled = true)
     {
@@ -99,7 +99,7 @@ class PageRepository extends EntityRepository implements PageFinderRepositoryInt
                 ->andWhere('channel = :channel')
                 ->setParameter('channel', $criteria['channels'])
             ;
-            
+
             unset($criteria['channels']);
         }
 

@@ -5,12 +5,22 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <imports>
-        <import resource="routers.xml"/>
         <import resource="twigs.xml"/>
         <import resource="themes.xml"/>
     </imports>
 
     <services>
+        <service id="toro_cms.twig_loader" public="true" class="Toro\Bundle\CmsBundle\Twig\PageLoader" decorates="sylius.theme.twig.loader">
+            <argument type="service" id="toro_cms.twig_loader.inner"/>
+            <argument type="service" id="toro.repository.page"/>
+            <argument type="service" id="sylius.context.locale"/>
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="request_stack"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
         <service id="toro_cms.pagerfanta.view.twitter_bootstrap4" public="false" class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4View">
             <tag name="pagerfanta.view" alias="twitter_bootstrap4"/>
         </service>

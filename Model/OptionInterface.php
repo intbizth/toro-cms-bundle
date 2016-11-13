@@ -3,8 +3,9 @@
 namespace Toro\Bundle\CmsBundle\Model;
 
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Component\Resource\Model\TimestampableInterface;
 
-interface OptionInterface extends ResourceInterface
+interface OptionInterface extends ResourceInterface, TimestampableInterface
 {
     /**
      * @return array
