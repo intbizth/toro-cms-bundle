@@ -166,7 +166,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
             try {
                 $pageContent = (string) $page->getCompileContent();
 
-                if (!empty($pageContent)) {
+                if (!empty(strip_tags($pageContent))) {
                     $pageContent = $twig->createTemplate($pageContent)->render([]);
                 }
             } catch (\Twig_Error_Runtime $e) {
