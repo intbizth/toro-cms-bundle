@@ -137,7 +137,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
         $slug = $this->getSlug();
 
         if (array_key_exists($slug, $this->cache)) {
-            if ($this->templates[$slug] === $logicalName) {
+            if ($this->templates[$slug] === $logicalName && false !== $this->cache[$slug]) {
                 $this->addTwigGlobalVar($this->cache[$slug]);
 
                 return $this->cache[$slug];
@@ -147,6 +147,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
         }
 
         $this->templates[$slug] = $logicalName;
+        $this->cache[$slug] = false;
         $this->cache[$slug] = $page = $this->findPage($slug);
 
         $this->addTwigGlobalVar($page);
