@@ -5,9 +5,11 @@ namespace Toro\Bundle\CmsBundle\Model;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Symfony\Cmf\Bundle\MediaBundle\ImageInterface;
-use Symfony\Cmf\Bundle\MediaBundle\Model\ImageRepositoryInterface;
 use Toro\Bundle\MediaBundle\Meta\MediaReference;
 
+/**
+ * @method PostTranslation getTranslation($local = null)
+ */
 class Post implements PostInterface
 {
     use OptionableTrait;
@@ -66,7 +68,7 @@ class Post implements PostInterface
      */
     public function getSlug()
     {
-        return $this->translate()->getSlug();
+        return $this->getTranslation()->getSlug();
     }
 
     /**
@@ -74,7 +76,7 @@ class Post implements PostInterface
      */
     public function setSlug($slug = null)
     {
-        $this->translate()->setSlug($slug);
+        $this->getTranslation()->setSlug($slug);
     }
 
     /**
@@ -82,7 +84,7 @@ class Post implements PostInterface
      */
     public function getTitle()
     {
-        return $this->translate()->getTitle();
+        return $this->getTranslation()->getTitle();
     }
 
     /**
@@ -90,7 +92,7 @@ class Post implements PostInterface
      */
     public function setTitle($title)
     {
-        $this->translate()->setTitle($title);
+        $this->getTranslation()->setTitle($title);
     }
 
     /**
@@ -98,7 +100,7 @@ class Post implements PostInterface
      */
     public function getBody()
     {
-        return $this->translate()->getBody();
+        return $this->getTranslation()->getBody();
     }
 
     /**
@@ -106,7 +108,7 @@ class Post implements PostInterface
      */
     public function setBody($body)
     {
-        $this->translate()->setBody($body);
+        $this->getTranslation()->setBody($body);
     }
 
     /**
@@ -114,7 +116,7 @@ class Post implements PostInterface
      */
     public function getDescription()
     {
-        return $this->translate()->getDescription();
+        return $this->getTranslation()->getDescription();
     }
 
     /**
@@ -122,7 +124,7 @@ class Post implements PostInterface
      */
     public function setDescription($description)
     {
-        $this->translate()->setDescription($description);
+        $this->getTranslation()->setDescription($description);
     }
 
     /**
@@ -216,7 +218,7 @@ class Post implements PostInterface
      */
     public function getVdoPath()
     {
-        return $this->translate()->getVdoPath();
+        return $this->getTranslation()->getVdoPath();
     }
 
     /**
@@ -224,6 +226,14 @@ class Post implements PostInterface
      */
     public function setVdoPath($vdoPath)
     {
-        $this->translate()->setVdoPath($vdoPath);
+        $this->getTranslation()->setVdoPath($vdoPath);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createTranslation()
+    {
+        return new PostTranslation();
     }
 }

@@ -5,6 +5,9 @@ namespace Toro\Bundle\CmsBundle\Model;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 
+/**
+ * @method PageTranslation getTranslation($local = null)
+ */
 class Page implements PageInterface
 {
     use OptionableTrait;
@@ -48,7 +51,7 @@ class Page implements PageInterface
      */
     public function getSlug()
     {
-        return $this->translate()->getSlug();
+        return $this->getTranslation()->getSlug();
     }
 
     /**
@@ -56,7 +59,7 @@ class Page implements PageInterface
      */
     public function setSlug($slug = null)
     {
-        $this->translate()->setSlug($slug);
+        $this->getTranslation()->setSlug($slug);
     }
 
     /**
@@ -64,7 +67,7 @@ class Page implements PageInterface
      */
     public function getTitle()
     {
-        return $this->translate()->getTitle();
+        return $this->getTranslation()->getTitle();
     }
 
     /**
@@ -72,7 +75,7 @@ class Page implements PageInterface
      */
     public function setTitle($title)
     {
-        $this->translate()->setTitle($title);
+        $this->getTranslation()->setTitle($title);
     }
 
     /**
@@ -80,7 +83,7 @@ class Page implements PageInterface
      */
     public function getBody()
     {
-        return $this->translate()->getBody();
+        return $this->getTranslation()->getBody();
     }
 
     /**
@@ -88,7 +91,7 @@ class Page implements PageInterface
      */
     public function setBody($body)
     {
-        $this->translate()->setBody($body);
+        $this->getTranslation()->setBody($body);
     }
 
     /**
@@ -129,5 +132,13 @@ class Page implements PageInterface
     public function getCompileContent()
     {
         return $this->getBody();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createTranslation()
+    {
+        return new PageTranslation();
     }
 }
