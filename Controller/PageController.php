@@ -137,7 +137,7 @@ class PageController extends ResourceController
         $templateStrategy = null;
         $templateContent = null;
         $pageContent = null;
-        $templateVar = $this->metadata->getName();
+        $templateVar = $request->get('templateVar', $this->metadata->getName());
 
         // FIXME: with some cool idea!
         if ($page instanceof PageInterface) {

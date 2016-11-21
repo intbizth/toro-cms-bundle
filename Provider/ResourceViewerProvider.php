@@ -70,14 +70,17 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
             return;
         }
 
+        $class = get_class($resource);
+        $ip = $request->getClientIp();
+
         // viewer ++
         $resource->increaseViewer();
 
         /** @var ResourceViewerInterface $rv */
         $rv = $this->factory->createNew();
-        $rv->setResourceName(get_class($resource));
+        $rv->setResourceName($class);
+        $rv->setIp($ip);
         $rv->setResourceId($resource->getId());
-        $rv->setIp($request->getClientIp());
         $rv->setMeta($request->headers->all());
 
         if ($this->tokenStorage && $this->tokenStorage->getToken()) {
@@ -91,10 +94,24 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $this->manager->persist($rv);
         $this->manager->flush($rv);
 
-        $table = $manager->getClassMetadata(get_class($resource))->getTableName();
+        $repository = $this->manager->getRepository(get_class($rv));
+        $queryBuilder = $repository->createQueryBuilder('o');
 
-        $manager->getConnection()->exec(
-            sprintf('UPDATE %s SET viewers = %s WHERE id = %s', $table, $resource->getViewers(), $resource->getId())
-        );
+        $queryBuilder
+            ->where('o.ip = :ip')->setParameter('ip', $ip)
+            ->andWhere('o.resourceName = :resourceName')->setParameter('resourceName', $class)
+            ->andWhere('o.resourceId = :resourceId')->setParameter('resourceId', $resource->getId())
+            ->andWhere('DATEDIFF(CURRENT_TIME(), o.createdAt) > 0')
+            ->orderBy('o.createdAt', 'DESC')
+            ->setMaxResults(1)
+        ;
+
+        if ($queryBuilder->getQuery()->getResult()) {
+            return;
+        }
+
+        $table = $manager->getClassMetadata($class)->getTableName();
+        $manager->getConnection()->update($table, ['viewers' => $resource->getViewers()], ['id' => $resource->getId()]);
+
     }
 }
