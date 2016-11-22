@@ -1,0 +1,16 @@
+{% set active_code = active|slice(3, 2)|lower %}
+<li class="nav-item nav-item-locale">
+    <div class="dropdown locale">
+        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="flag-icon flag-icon-{{ active_code }}"></i> <span>{{ active_code|sylius_locale_name }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            {% for locale in locales %}
+                {% set locale_code = locale|slice(3, 2)|lower %}
+                <a class="dropdown-item" href="{{ path('toro_cms_switch_locale', {code: locale}) }}">
+                    <i class="flag-icon flag-icon-{{ locale_code }}"></i> {{ locale|sylius_locale_name }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</li>

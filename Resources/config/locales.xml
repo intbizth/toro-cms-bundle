@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="sylius.locale_provider.channel_based" class="Toro\Bundle\CmsBundle\Provider\ChannelBasedLocaleProvider" decorates="sylius.locale_provider">
+            <argument type="service" id="sylius.context.channel" />
+            <argument>%locale%</argument>
+        </service>
+
+        <service id="sylius.storage.locale" class="Toro\Bundle\CmsBundle\Locale\Storage\SessionBasedLocaleStorage">
+            <argument type="service" id="session" />
+        </service>
+
+        <service id="sylius.context.locale.request_based" class="Sylius\Bundle\LocaleBundle\Context\RequestBasedLocaleContext">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="sylius.locale_provider" />
+            <tag name="sylius.context.locale" />
+        </service>
+
+        <service id="sylius.context.locale.storage_based" class="Toro\Bundle\CmsBundle\Locale\Context\StorageBasedLocaleContext">
+            <argument type="service" id="sylius.context.channel" />
+            <argument type="service" id="sylius.storage.locale" />
+            <argument type="service" id="sylius.locale_provider" />
+            <tag name="sylius.context.locale" />
+        </service>
+
+        <service id="sylius.context.locale.provider_based" class="Sylius\Component\Locale\Context\ProviderBasedLocaleContext">
+            <argument type="service" id="sylius.locale_provider" />
+            <tag name="sylius.context.locale" />
+        </service>
+
+        <service id="sylius.handler.locale_change.composite" class="Toro\Bundle\CmsBundle\Locale\Handler\CompositeLocaleChangeHandler" public="false" />
+
+        <service id="sylius.handler.locale_change.default" class="Toro\Bundle\CmsBundle\Locale\Handler\LocaleChangeHandler">
+            <argument type="service" id="sylius.storage.locale" />
+            <argument type="service" id="sylius.context.channel.composite" />
+            <argument type="service" id="event_dispatcher" />
+            <tag name="sylius.locale.change_handler" />
+        </service>
+
+        <service id="toro.controller.locale_switch" class="Toro\Bundle\CmsBundle\Controller\LocaleSwitchController">
+            <argument type="service" id="templating" />
+            <argument type="service" id="sylius.context.locale" />
+            <argument type="service" id="sylius.locale_provider" />
+            <argument type="service" id="sylius.handler.locale_change" />
+        </service>
+    </services>
+</container>

@@ -1,3 +1,8 @@
+toro_cms_switch_locale:
+    path: /switch-locale/{code}
+    defaults:
+        _controller: toro.controller.locale_switch:switchAction
+
 toro_cms_post:
     path: /post/{slug}
     defaults:

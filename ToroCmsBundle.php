@@ -5,6 +5,7 @@ namespace Toro\Bundle\CmsBundle;
 use Sylius\Bundle\ResourceBundle\AbstractResourceBundle;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Toro\Bundle\CmsBundle\DependencyInjection\Compiler\RegisterLocaleHandlersPass;
 use Toro\Bundle\CmsBundle\DependencyInjection\Compiler\RoutingRepositoryPass;
 
 class ToroCmsBundle extends AbstractResourceBundle
@@ -19,6 +20,7 @@ class ToroCmsBundle extends AbstractResourceBundle
         parent::build($builder);
 
         $builder->addCompilerPass(new RoutingRepositoryPass());
+        $builder->addCompilerPass(new RegisterLocaleHandlersPass());
     }
 
     /**

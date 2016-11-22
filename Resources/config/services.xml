@@ -7,6 +7,7 @@
     <imports>
         <import resource="twigs.xml"/>
         <import resource="themes.xml"/>
+        <import resource="locales.xml"/>
     </imports>
 
     <services>
