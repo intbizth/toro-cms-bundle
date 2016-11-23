@@ -30,6 +30,8 @@ use Toro\Bundle\CmsBundle\Model\PageTranslation;
 use Toro\Bundle\CmsBundle\Model\PageTranslationInterface;
 use Toro\Bundle\CmsBundle\Model\Post;
 use Toro\Bundle\CmsBundle\Model\PostInterface;
+use Toro\Bundle\CmsBundle\Model\PostLike;
+use Toro\Bundle\CmsBundle\Model\PostLikeInterface;
 use Toro\Bundle\CmsBundle\Model\PostOption;
 use Toro\Bundle\CmsBundle\Model\PostOptionInterface;
 use Toro\Bundle\CmsBundle\Model\PostTranslation;
@@ -288,6 +290,22 @@ class Configuration implements ConfigurationInterface
                                             ->prototype('scalar')->end()
                                             ->defaultValue([ToroCmsBundle::APPLICATION_NAME])
                                         ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('post_like')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(PostLike::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(PostLikeInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(EntityRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                     ->end()
                                 ->end()
                             ->end()

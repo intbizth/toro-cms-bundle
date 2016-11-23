@@ -17,7 +17,8 @@ interface PostInterface extends
     SlugAwareInterface,
     ViewerableInterface,
     PostTranslationInterface,
-    MediaAwareInterface
+    MediaAwareInterface,
+    LikeableInterface
 {
     const TYPE_CONTENT = 'content';
     const TYPE_YOUTUBE = 'youtube';

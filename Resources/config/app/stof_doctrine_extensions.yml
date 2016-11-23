@@ -1,0 +1,3 @@
+stof_doctrine_extensions:
+    class:
+        blameable: Toro\Bundle\CmsBundle\EventListener\BlameableListener

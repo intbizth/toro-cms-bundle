@@ -1,4 +1,5 @@
 imports:
     - { resource: "@ToroCmsBundle/Resources/config/app/mysql.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/sylius_theme.yml" }
+    - { resource: "@ToroCmsBundle/Resources/config/app/stof_doctrine_extensions.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/fixtures/pages.yml" }

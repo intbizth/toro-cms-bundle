@@ -15,6 +15,7 @@ class Post implements PostInterface
     use OptionableTrait;
     use TimestampableTrait;
     use ViewerableTrait;
+    use LikeableTrait;
 
     use TranslatableTrait {
         __construct as private initializeTranslationsCollection;
