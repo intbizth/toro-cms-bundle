@@ -6,7 +6,7 @@ toro_cms_switch_locale:
 toro_cms_post:
     path: /post/{slug}
     defaults:
-        _controller: toro.controller.page:viewAction
+        _controller: toro.controller.post:viewAction
         template: ToroCmsBundle::show.html.twig
     requirements:
         slug: .+
