@@ -8,6 +8,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Toro\Bundle\CmsBundle\Model\ResourceViewerInterface;
@@ -62,6 +63,22 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
     }
 
     /**
+     * FIXME: http://symfony.com/doc/current/request/load_balancer_reverse_proxy.html -- not work
+     * FIXME: https://github.com/symfony/symfony/issues/20178
+     * @param Request $request
+     */
+    private function getProxyIp(Request $request)
+    {
+        $ips = explode(',', preg_replace('/\s+/', '', $request->headers->get('x-forwarded-for')));
+
+        if (!empty($ips)) {
+            return $ips[0];
+        }
+
+        return;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function increase(ViewerableInterface $resource, ObjectManager $manager)
@@ -71,7 +88,7 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         }
 
         $class = get_class($resource);
-        $ip = $request->getClientIp();
+        $ip = $this->getProxyIp($request) ?: $request->getClientIp();
 
         /** @var ResourceViewerInterface $rv */
         $rv = $this->factory->createNew();
