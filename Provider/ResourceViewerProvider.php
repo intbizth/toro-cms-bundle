@@ -92,6 +92,20 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
 
         /** @var ResourceViewerInterface $rv */
         $rv = $this->factory->createNew();
+
+        $repository = $this->manager->getRepository(get_class($rv));
+        $queryBuilder = $repository->createQueryBuilder('o');
+
+        /** @var ResourceViewerInterface $lastLog */
+        $lastLog = $queryBuilder
+            ->where('o.ip = :ip')->setParameter('ip', $ip)
+            ->andWhere('o.resourceName = :resourceName')->setParameter('resourceName', $class)
+            ->andWhere('o.resourceId = :resourceId')->setParameter('resourceId', $resource->getId())
+            ->orderBy('o.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult()
+        ;
+
         $rv->setResourceName($class);
         $rv->setIp($ip);
         $rv->setResourceId($resource->getId());
@@ -108,19 +122,8 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $this->manager->persist($rv);
         $this->manager->flush($rv);
 
-        $repository = $this->manager->getRepository(get_class($rv));
-        $queryBuilder = $repository->createQueryBuilder('o');
 
-        $queryBuilder
-            ->where('o.ip = :ip')->setParameter('ip', $ip)
-            ->andWhere('o.resourceName = :resourceName')->setParameter('resourceName', $class)
-            ->andWhere('o.resourceId = :resourceId')->setParameter('resourceId', $resource->getId())
-            ->andWhere('DATEDIFF(CURRENT_TIME(), o.createdAt) > 0')
-            ->orderBy('o.createdAt', 'DESC')
-            ->setMaxResults(1)
-        ;
-
-        if ($queryBuilder->getQuery()->getResult()) {
+        if ($lastLog && ($lastLog->getCreatedAt()->getTimestamp() > strtotime('-1 day'))) {
             return;
         }
 
