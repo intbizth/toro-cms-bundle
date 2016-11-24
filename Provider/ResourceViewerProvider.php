@@ -73,9 +73,6 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $class = get_class($resource);
         $ip = $request->getClientIp();
 
-        // viewer ++
-        $resource->increaseViewer();
-
         /** @var ResourceViewerInterface $rv */
         $rv = $this->factory->createNew();
         $rv->setResourceName($class);
@@ -109,6 +106,9 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         if ($queryBuilder->getQuery()->getResult()) {
             return;
         }
+
+        // viewer ++
+        $resource->increaseViewer();
 
         $table = $manager->getClassMetadata($class)->getTableName();
         $manager->getConnection()->update($table, ['viewers' => $resource->getViewers()], ['id' => $resource->getId()]);
