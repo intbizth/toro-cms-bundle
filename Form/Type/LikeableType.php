@@ -40,6 +40,10 @@ class LikeableType extends AbstractResourceType
                 } else {
                     $this->createDisliked($options['likeRepository'], $likes, $likeable, $like);
                 }
+
+                foreach ($likes as $like) {
+                    $options['likeRepository']->remove($like);
+                }
             })
         ;
     }
@@ -59,10 +63,12 @@ class LikeableType extends AbstractResourceType
             if ($likeObject->isLiked()) {
                 $hasLiked = true;
                 $likeable->unlike();
-                $repository->remove($likeObject);
+            } else {
+                // if dislike exit increase them too
+                $likeable->undislike();
             }
         }
-        
+
         if ($hasLiked) {
             return;
         }
@@ -86,7 +92,9 @@ class LikeableType extends AbstractResourceType
             if (!$dislikeObject->isLiked()) {
                 $hasDisliked = true;
                 $likeable->undislike();
-                $repository->remove($dislikeObject);
+            } else {
+                // if like exit increase them too
+                $likeable->unlike();
             }
         }
 
@@ -94,6 +102,7 @@ class LikeableType extends AbstractResourceType
             return;
         }
 
+        $dislike->setLiked(false);
         $likeable->dislike();
         $repository->add($dislike);
     }
