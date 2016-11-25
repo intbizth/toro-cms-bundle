@@ -2,6 +2,7 @@
 
 namespace Toro\Bundle\CmsBundle\Form\Type;
 
+use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -15,7 +16,7 @@ class PageType extends AbstractResourceType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('channel', 'sylius_channel_choice', [
+            ->add('channel', ChannelChoiceType::class, [
                 'required' => true,
                 'label' => 'Channel',
             ])
