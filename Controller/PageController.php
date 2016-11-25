@@ -159,6 +159,10 @@ class PageController extends ResourceController
                 if (!empty(strip_tags($pageContent))) {
                     $pageContent = $this->get('twig')->createTemplate($pageContent)->render([]);
                 }
+            } catch (\Twig_Error_Loader $e) {
+                if (!$this->get('kernel')->isDebug()) {
+                    $pageContent = preg_replace('/\{\{ (.*?)\}\}/is', '', $pageContent);
+                }
             } catch (\Twig_Error_Runtime $e) {
                 $pageContent = $e->getRawMessage();
             }
