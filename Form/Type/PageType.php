@@ -30,7 +30,7 @@ class PageType extends AbstractResourceType
             ])
             ->add('options', PageOptionType::class)
             ->add('translations', ResourceTranslationsType::class, [
-                'type' => 'toro_page_translation'
+                'entry_type' => PageTranslationType::class
             ])
         ;
     }
@@ -38,7 +38,7 @@ class PageType extends AbstractResourceType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'toro_page';
     }

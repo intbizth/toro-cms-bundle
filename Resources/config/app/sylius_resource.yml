@@ -1,0 +1,3 @@
+sylius_resource:
+    translation:
+        locale_provider: sylius.translation_locale_provider.cms

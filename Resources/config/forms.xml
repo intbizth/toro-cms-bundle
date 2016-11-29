@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="toro.form.type.post" class="Toro\Bundle\CmsBundle\Form\Type\PostType">
+            <argument>%toro.model.post.class%</argument>
+            <argument type="collection"><argument>toro</argument></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.post_translation" class="Toro\Bundle\CmsBundle\Form\Type\PostTranslationType">
+            <argument>%toro.model.post_translation.class%</argument>
+            <argument type="collection"><argument>toro</argument></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.post_option" class="Toro\Bundle\CmsBundle\Form\Type\PostOptionType">
+            <argument>%toro.model.post_option.class%</argument>
+            <argument type="collection"><argument>toro</argument></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.page" class="Toro\Bundle\CmsBundle\Form\Type\PageType">
+            <argument>%toro.model.page.class%</argument>
+            <argument type="collection"><argument>toro</argument></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.page_translation" class="Toro\Bundle\CmsBundle\Form\Type\PageTranslationType">
+            <argument>%toro.model.page_translation.class%</argument>
+            <argument type="collection"><argument>toro</argument></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.page_option" class="Toro\Bundle\CmsBundle\Form\Type\PageOptionType">
+            <argument>%toro.model.page_option.class%</argument>
+            <argument type="collection"><argument>toro</argument></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.channel" class="Toro\Bundle\CmsBundle\Form\Extension\ChannelTypeExtension">
+            <argument type="service" id="sylius.repository.channel" />
+            <tag name="form.type_extension" extended-type="Sylius\Bundle\ChannelBundle\Form\Type\ChannelType" />
+        </service>
+
+        <service id="toro.form.type.locale" class="Toro\Bundle\CmsBundle\Form\Extension\LocaleTypeExtension">
+            <argument type="service" id="sylius.repository.locale" />
+            <argument>%locale%</argument>
+            <tag name="form.type_extension" extended-type="Sylius\Bundle\LocaleBundle\Form\Type\LocaleType" />
+        </service>
+
+        <service id="toro.form.type.locale_code_choice" class="Toro\Bundle\CmsBundle\Form\Type\LocaleCodeChoiceType">
+            <argument type="service" id="sylius.repository.locale"/>
+            <tag name="form.type"/>
+        </service>
+    </services>
+</container>

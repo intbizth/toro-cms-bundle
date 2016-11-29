@@ -33,7 +33,7 @@ class PageTranslationType extends AbstractResourceType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'toro_page_translation';
     }

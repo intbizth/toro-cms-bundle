@@ -8,9 +8,9 @@ use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Toro\Bundle\CmsBundle\Model\PostInterface;
+use Toro\Bundle\MediaBundle\Form\Type\ImageType;
 
 class PostType extends AbstractResourceType
 {
@@ -44,9 +44,9 @@ class PostType extends AbstractResourceType
             ])
             ->add('options', PostOptionType::class)
             ->add('translations', ResourceTranslationsType::class, [
-                'type' => 'toro_post_translation'
+                'entry_type' => PostTranslationType::class
             ])
-            ->add('cover', 'toro_media_image', [
+            ->add('cover', ImageType::class, [
                 'required' => false,
                 'label' => 'Cover',
             ])
@@ -56,7 +56,7 @@ class PostType extends AbstractResourceType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'toro_post';
     }

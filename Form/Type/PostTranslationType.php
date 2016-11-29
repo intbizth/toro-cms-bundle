@@ -42,7 +42,7 @@ class PostTranslationType extends AbstractResourceType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'toro_post_translation';
     }

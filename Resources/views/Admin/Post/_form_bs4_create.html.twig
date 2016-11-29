@@ -1,10 +1,17 @@
 {{ form_errors(form) }}
 
-{{ form_row(form.translations, { exclude: ['body', 'description'] }) }}
-
-<div class="pad-all">
-    {{ form_row(form.channel) }}
-    {{ form_row(form.type) }}
-    {{ form_row(form.publishedAt) }}
-    {{ form_row(form.published) }}
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel">
+            <div class="panel-body">
+                {{ form_row(form.channel) }}
+                {{ form_row(form.type) }}
+                {{ form_row(form.publishedAt) }}
+                {{ form_row(form.published) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        {{ form_row(form.translations, { exclude: ['body', 'description'] }) }}
+    </div>
 </div>

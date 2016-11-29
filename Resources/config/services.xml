@@ -8,10 +8,12 @@
         <import resource="twigs.xml"/>
         <import resource="themes.xml"/>
         <import resource="locales.xml"/>
+        <import resource="forms.xml"/>
     </imports>
 
     <services>
-        <service id="toro_cms.twig_loader" public="true" class="Toro\Bundle\CmsBundle\Twig\PageLoader" decorates="sylius.theme.twig.loader">
+        <service id="toro_cms.twig_loader" public="true" class="Toro\Bundle\CmsBundle\Twig\PageLoader"
+                 decorates="sylius.theme.twig.loader">
             <argument type="service" id="toro_cms.twig_loader.inner"/>
             <argument type="service" id="toro.repository.page"/>
             <argument type="service" id="sylius.context.locale"/>
@@ -22,17 +24,20 @@
             </call>
         </service>
 
-        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4" public="false" class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4View">
+        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4" public="false"
+                 class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4View">
             <tag name="pagerfanta.view" alias="twitter_bootstrap4"/>
         </service>
 
-        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4_translated" public="false" class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4TranslatedView">
+        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4_translated" public="false"
+                 class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4TranslatedView">
             <argument type="service" id="toro_cms.pagerfanta.view.twitter_bootstrap4"/>
             <argument type="service" id="translator"/>
             <tag name="pagerfanta.view" alias="twitter_bootstrap4_translated"/>
         </service>
 
-        <service id="toro_cms.event_subscriber.discriminator_entity_type" class="Toro\Bundle\CmsBundle\EventListener\DiscriminatorEntityTypeSubscriber">
+        <service id="toro_cms.event_subscriber.discriminator_entity_type"
+                 class="Toro\Bundle\CmsBundle\EventListener\DiscriminatorEntityTypeSubscriber">
             <tag name="doctrine.event_subscriber" priority="8192"/>
         </service>
 
@@ -43,6 +48,25 @@
             <argument type="service" id="toro.repository.resource_viewer"/>
             <argument type="service" id="toro.factory.resource_viewer"/>
             <argument type="service" id="request_stack"/>
+        </service>
+
+        <service id="sylius.theme.context.channel_based"
+                 class="Toro\Bundle\CmsBundle\Theme\Context\ChannelBasedThemeContext"
+                 public="false">
+            <argument type="service" id="sylius.context.channel"/>
+            <argument type="service" id="sylius.repository.theme"/>
+        </service>
+
+        <service id="sylius.context.channel.cached"
+                 class="Sylius\Component\Channel\Context\CachedPerRequestChannelContext"
+                 decorates="sylius.context.channel" public="false">
+            <argument type="service" id="sylius.context.channel.cached.inner"/>
+            <argument type="service" id="request_stack"/>
+        </service>
+
+        <service id="sylius.listener.channel" class="Toro\Bundle\CmsBundle\EventListener\ChannelDeletionListener">
+            <argument type="service" id="sylius.repository.channel"/>
+            <tag name="kernel.event_listener" event="sylius.channel.pre_delete" method="onChannelPreDelete"/>
         </service>
     </services>
 </container>

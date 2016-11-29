@@ -47,5 +47,15 @@
             <argument type="service" id="sylius.locale_provider" />
             <argument type="service" id="sylius.handler.locale_change" />
         </service>
+
+        <service id="sylius.translation_locale_provider.cms" class="Toro\Bundle\CmsBundle\Provider\TranslationLocaleProvider">
+            <argument type="service" id="sylius.repository.locale" />
+            <argument type="string">%locale%</argument>
+        </service>
+
+        <service id="sylius.translation.translatable_listener.doctrine.orm" class="Toro\Bundle\CmsBundle\EventListener\ORMTranslatableListener">
+            <argument type="service" id="service_container" />
+            <tag name="doctrine.event_subscriber" connection="default" priority="100" />
+        </service>
     </services>
 </container>
