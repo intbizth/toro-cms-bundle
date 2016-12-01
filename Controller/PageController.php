@@ -130,7 +130,11 @@ class PageController extends ResourceController
         $page = is_object($slug) ? $slug : $this->findPage($slug, false);
 
         if (!$page) {
-            throw new NotFoundHttpException("No page found");
+            if (!is_string($slug) && !is_numeric($slug)) {
+                $slug = '?';
+            }
+
+            throw new NotFoundHttpException("No page found - " . $slug);
         }
 
         $template = $request->get('template');
