@@ -3,7 +3,7 @@
 namespace Toro\Bundle\CmsBundle\Provider;
 
 use Sylius\Component\Locale\Model\LocaleInterface;
-use Sylius\Component\Resource\Provider\TranslationLocaleProviderInterface;
+use Sylius\Component\Resource\Translation\Provider\TranslationLocaleProviderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class TranslationLocaleProvider implements TranslationLocaleProviderInterface
