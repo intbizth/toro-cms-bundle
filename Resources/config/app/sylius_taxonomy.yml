@@ -2,4 +2,4 @@ sylius_taxonomy:
     resources:
         taxon:
             classes:
-                repository: Toro\Bundle\AdminBundle\Doctrine\ORM\TaxonRepository
+                repository: Toro\Bundle\CmsBundle\Doctrine\ORM\TaxonRepository
