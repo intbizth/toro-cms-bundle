@@ -7,6 +7,7 @@ use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Toro\Bundle\CmsBundle\DependencyInjection\Compiler\RegisterLocaleHandlersPass;
 use Toro\Bundle\CmsBundle\DependencyInjection\Compiler\RoutingRepositoryPass;
+use Toro\Bundle\CmsBundle\DependencyInjection\Compiler\TranslatableEntityLocalePass;
 
 class ToroCmsBundle extends AbstractResourceBundle
 {
@@ -21,6 +22,7 @@ class ToroCmsBundle extends AbstractResourceBundle
 
         $builder->addCompilerPass(new RoutingRepositoryPass());
         $builder->addCompilerPass(new RegisterLocaleHandlersPass());
+        $builder->addCompilerPass(new TranslatableEntityLocalePass());
     }
 
     /**

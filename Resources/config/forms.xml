@@ -56,5 +56,14 @@
             <argument type="service" id="sylius.repository.locale"/>
             <tag name="form.type"/>
         </service>
+
+        <service id="toro.form.extension.type.taxon" class="Toro\Bundle\CmsBundle\Form\Extension\TaxonTypeExtension">
+            <tag name="form.type_extension" extended-type="Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonType" />
+        </service>
+
+        <service id="toro.form.extension.type.taxon_choice" class="Toro\Bundle\CmsBundle\Form\Extension\TaxonChoiceTypeExtension">
+            <argument type="service" id="sylius.repository.taxon"/>
+            <tag name="form.type_extension" extended-type="Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonChoiceType" />
+        </service>
     </services>
 </container>

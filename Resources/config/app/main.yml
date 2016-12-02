@@ -4,5 +4,6 @@ imports:
     - { resource: "@ToroCmsBundle/Resources/config/app/sylius_channel.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/sylius_locale.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/sylius_theme.yml" }
+    - { resource: "@ToroCmsBundle/Resources/config/app/sylius_taxonomy.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/stof_doctrine_extensions.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/fixtures/pages.yml" }

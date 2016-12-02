@@ -1,0 +1,5 @@
+sylius_taxonomy:
+    resources:
+        taxon:
+            classes:
+                repository: Toro\Bundle\AdminBundle\Doctrine\ORM\TaxonRepository
