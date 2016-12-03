@@ -52,5 +52,10 @@
             <argument type="service" id="sylius.repository.locale" />
             <argument type="string">%locale%</argument>
         </service>
+
+        <service id="toro.translator" class="Toro\Bundle\CmsBundle\Locale\ThemeAwareTranslator" decorates="sylius.theme.translation.theme_aware_translator" public="false">
+            <argument type="service" id="toro.translator.inner" />
+            <argument type="service" id="sylius.context.locale" />
+        </service>
     </services>
 </container>
