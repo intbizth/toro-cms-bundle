@@ -1,5 +1,0 @@
-sylius_locale:
-    resources:
-        locale:
-            classes:
-                model: Toro\Bundle\CmsBundle\Model\Locale
