@@ -25,6 +25,18 @@ class ToroCmsExtension extends AbstractResourceExtension
             $loader->load('fixtures.xml');
         }
 
+        if ($config['form_extension']['channel']) {
+            $loader->load('forms/channel-extension.xml');
+        }
+
+        if ($config['form_extension']['taxon']) {
+            $loader->load('forms/taxon-extension.xml');
+        }
+
+        if ($config['form_extension']['taxon_choice']) {
+            $loader->load('forms/taxon-choice-extension.xml');
+        }
+
         $this->registerResources(ToroCmsBundle::APPLICATION_NAME, $config['driver'], $config['resources'], $container);
     }
 }

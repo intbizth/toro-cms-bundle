@@ -41,29 +41,9 @@
             <tag name="form.type" />
         </service>
 
-        <service id="toro.form.type.channel" class="Toro\Bundle\CmsBundle\Form\Extension\ChannelTypeExtension">
-            <argument type="service" id="sylius.repository.channel" />
-            <tag name="form.type_extension" extended-type="Sylius\Bundle\ChannelBundle\Form\Type\ChannelType" />
-        </service>
-
-        <service id="toro.form.type.locale" class="Toro\Bundle\CmsBundle\Form\Extension\LocaleTypeExtension">
-            <argument type="service" id="sylius.repository.locale" />
-            <argument>%locale%</argument>
-            <tag name="form.type_extension" extended-type="Sylius\Bundle\LocaleBundle\Form\Type\LocaleType" />
-        </service>
-
         <service id="toro.form.type.locale_code_choice" class="Toro\Bundle\CmsBundle\Form\Type\LocaleCodeChoiceType">
             <argument type="service" id="sylius.repository.locale"/>
             <tag name="form.type"/>
-        </service>
-
-        <service id="toro.form.extension.type.taxon" class="Toro\Bundle\CmsBundle\Form\Extension\TaxonTypeExtension">
-            <tag name="form.type_extension" extended-type="Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonType" />
-        </service>
-
-        <service id="toro.form.extension.type.taxon_choice" class="Toro\Bundle\CmsBundle\Form\Extension\TaxonChoiceTypeExtension">
-            <argument type="service" id="sylius.repository.taxon"/>
-            <tag name="form.type_extension" extended-type="Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonChoiceType" />
         </service>
     </services>
 </container>

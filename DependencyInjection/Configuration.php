@@ -69,6 +69,16 @@ class Configuration implements ConfigurationInterface
     {
         $node
             ->children()
+                ->arrayNode('form_extension')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('channel')->defaultTrue()->cannotBeEmpty()->end()
+                        ->scalarNode('taxon')->defaultTrue()->cannotBeEmpty()->end()
+                        ->scalarNode('taxon_choice')->defaultTrue()->cannotBeEmpty()->end()
+                    ->end()
+                ->end()
+            ->end()
+            ->children()
                 ->arrayNode('resources')
                     ->addDefaultsIfNotSet()
                     ->children()
