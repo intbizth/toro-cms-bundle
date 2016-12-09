@@ -7,7 +7,6 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -87,43 +86,32 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
             return;
         }
 
-        $class = get_class($resource);
         $ip = $this->getProxyIp($request) ?: $request->getClientIp();
+        $class = get_class($resource);
 
         /** @var ResourceViewerInterface $rv */
         $rv = $this->factory->createNew();
 
-        $repository = $this->manager->getRepository(get_class($rv));
-        $queryBuilder = $repository->createQueryBuilder('o');
+        if ($resource->isViewerLogEnabled()) {
+            $rv->setResourceName($class);
+            $rv->setIp($ip);
+            $rv->setResourceId($resource->getId());
+            $rv->setMeta($request->headers->all());
 
-        /** @var ResourceViewerInterface $lastLog */
-        $lastLog = $queryBuilder
-            ->where('o.ip = :ip')->setParameter('ip', $ip)
-            ->andWhere('o.resourceName = :resourceName')->setParameter('resourceName', $class)
-            ->andWhere('o.resourceId = :resourceId')->setParameter('resourceId', $resource->getId())
-            ->orderBy('o.createdAt', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()->getOneOrNullResult()
-        ;
+            if ($this->tokenStorage && $this->tokenStorage->getToken()) {
+                $user = $this->tokenStorage->getToken()->getUser();
 
-        $rv->setResourceName($class);
-        $rv->setIp($ip);
-        $rv->setResourceId($resource->getId());
-        $rv->setMeta($request->headers->all());
-
-        if ($this->tokenStorage && $this->tokenStorage->getToken()) {
-            $user = $this->tokenStorage->getToken()->getUser();
-
-            if ($user instanceof UserInterface) {
-                $rv->setUser($user);
+                if ($user instanceof UserInterface) {
+                    $rv->setUser($user);
+                }
             }
+
+            $this->manager->persist($rv);
         }
 
-        $this->manager->persist($rv);
-        $this->manager->flush($rv);
+        $lastLog = $resource->getLastViewerStampTime();
 
-
-        if ($lastLog && ($lastLog->getCreatedAt()->getTimestamp() > strtotime('-1 day'))) {
+        if ($lastLog && ($lastLog->getTimestamp() > strtotime('-1 day'))) {
             return;
         }
 
@@ -132,6 +120,13 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
 
         $table = $manager->getClassMetadata($class)->getTableName();
         $manager->getConnection()->update($table, ['viewers' => $resource->getViewers()], ['id' => $resource->getId()]);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function flushViewerLog()
+    {
+        $this->manager->flush();
     }
 }

@@ -24,8 +24,7 @@
             </call>
         </service>
 
-        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4" public="false"
-                 class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4View">
+        <service id="toro_cms.pagerfanta.view.twitter_bootstrap4" public="false" class="Toro\Bundle\CmsBundle\Pagerfanta\View\TwitterBootstrap4View">
             <tag name="pagerfanta.view" alias="twitter_bootstrap4"/>
         </service>
 
@@ -39,15 +38,6 @@
         <service id="toro_cms.event_subscriber.discriminator_entity_type"
                  class="Toro\Bundle\CmsBundle\EventListener\DiscriminatorEntityTypeSubscriber">
             <tag name="doctrine.event_subscriber" priority="8192"/>
-        </service>
-
-        <service id="toro_cms.provider.resource_viewer" class="Toro\Bundle\CmsBundle\Provider\ResourceViewerProvider">
-            <argument type="service" id="security.token_storage"/>
-            <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="toro.manager.resource_viewer"/>
-            <argument type="service" id="toro.repository.resource_viewer"/>
-            <argument type="service" id="toro.factory.resource_viewer"/>
-            <argument type="service" id="request_stack"/>
         </service>
 
         <service id="sylius.theme.context.channel_based"
@@ -67,6 +57,21 @@
         <service id="sylius.listener.channel" class="Toro\Bundle\CmsBundle\EventListener\ChannelDeletionListener">
             <argument type="service" id="sylius.repository.channel"/>
             <tag name="kernel.event_listener" event="sylius.channel.pre_delete" method="onChannelPreDelete"/>
+        </service>
+
+        <service id="toro.listener.log_viwer" class="Toro\Bundle\CmsBundle\EventListener\PageViewerLogListener">
+            <argument type="service">
+                <service id="toro_cms.provider.resource_viewer" class="Toro\Bundle\CmsBundle\Provider\ResourceViewerProvider" lazy="true">
+                    <argument type="service" id="security.token_storage"/>
+                    <argument type="service" id="event_dispatcher"/>
+                    <argument type="service" id="toro.manager.resource_viewer"/>
+                    <argument type="service" id="toro.repository.resource_viewer"/>
+                    <argument type="service" id="toro.factory.resource_viewer"/>
+                    <argument type="service" id="request_stack"/>
+                </service>
+            </argument>
+            <tag name="kernel.event_listener" event="toro_cms.on_page_show" method="insertLog"/>
+            <tag name="kernel.event_listener" event="kernel.terminate" method="flushLog"/>
         </service>
     </services>
 </container>

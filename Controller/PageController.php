@@ -6,6 +6,7 @@ use FOS\RestBundle\View\View;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -197,10 +198,9 @@ class PageController extends ResourceController
             throw new \LogicException("Empty template file, please config under your routing. ");
         }
 
-        // increase viewer
-        $this->get('toro_cms.provider.resource_viewer')->increase(
-            $page, $request->get('manager', $this->get('toro.manager.page'))
-        );
+        $this->get('event_dispatcher')->dispatch('toro_cms.on_page_show', new GenericEvent($page, [
+            'manager' => $request->get('manager', $this->get('toro.manager.page'))
+        ]));
 
         $view = View::create()
             ->setTemplate($template)
