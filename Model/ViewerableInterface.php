@@ -35,4 +35,9 @@ interface ViewerableInterface extends ResourceInterface
      * @return boolean
      */
     public function isViewerLogEnabled();
+
+    /**
+     * @return boolean
+     */
+    public function isViewerEnabled();
 }

@@ -82,6 +82,10 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
      */
     public function increase(ViewerableInterface $resource, ObjectManager $manager)
     {
+        if (!$resource->isViewerEnabled()) {
+            return;
+        }
+
         if (!$request = $this->requestStack->getCurrentRequest()) {
             return;
         }

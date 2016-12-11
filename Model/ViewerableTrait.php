@@ -53,6 +53,18 @@ trait ViewerableTrait
     /**
      * {@inheritdoc}
      */
+    public function isViewerEnabled()
+    {
+        if (in_array(PageInterface::class, class_implements(get_called_class()))) {
+            return !$this->isPartial();
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getLastViewerStampTime()
     {
         return $this->lastViewerStampTime;
