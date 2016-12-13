@@ -131,6 +131,8 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
      */
     public function flushViewerLog()
     {
-        $this->manager->flush();
+        if ($this->manager->isOpen()) {
+            $this->manager->flush();
+        }
     }
 }
