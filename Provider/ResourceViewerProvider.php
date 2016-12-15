@@ -45,6 +45,11 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
      */
     private $eventDispatcher;
 
+    /**
+     * @var array
+     */
+    private $logEntities = [];
+
     public function __construct(
         TokenStorageInterface $tokenStorage,
         EventDispatcherInterface $eventDispatcher,
@@ -94,7 +99,7 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $class = get_class($resource);
 
         /** @var ResourceViewerInterface $rv */
-        $rv = $this->factory->createNew();
+        $this->logEntities[] = $rv = $this->factory->createNew();
 
         if ($resource->isViewerLogEnabled()) {
             $rv->setResourceName($class);
@@ -132,7 +137,9 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
     public function flushViewerLog()
     {
         if ($this->manager->isOpen()) {
-            $this->manager->flush();
+            foreach ($this->logEntities as $entity) {
+                $this->manager->flush($entity);
+            }
         }
     }
 }
