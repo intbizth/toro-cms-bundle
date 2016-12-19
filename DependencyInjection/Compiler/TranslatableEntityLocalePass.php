@@ -2,11 +2,11 @@
 
 namespace Toro\Bundle\CmsBundle\DependencyInjection\Compiler;
 
-use Sylius\Component\Core\Translation\TranslatableEntityLocaleAssigner;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Toro\Bundle\CmsBundle\Locale\TranslatableEntityLocaleAssigner;
 
 final class TranslatableEntityLocalePass implements CompilerPassInterface
 {
