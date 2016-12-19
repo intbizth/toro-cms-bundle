@@ -3,7 +3,7 @@ $(function () {
         if (window[editor] instanceof CodeMirror) {
             window[editor].refresh();
         } else {
-            window[editor] = CodeMirror.fromTextArea(document.getElementById(elId), {
+            window[editor] = CodeMirror.fromTextArea(typeof elId === 'string' ? document.getElementById(elId) : elId, {
                 lineNumbers: true,
                 indentWithTabs: false,
                 mode: {name: mode, htmlMode: mode === 'twig'}
@@ -31,5 +31,9 @@ $(function () {
                 $(this).data('code-mirror-mode')
             );
         }
+    });
+
+    $('textarea[data-code-mirror-mode]').each(function () {
+        CodeMirrorInit($(this).data('code-mirror'), this, $(this).data('code-mirror-mode'));
     });
 });

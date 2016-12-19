@@ -8,6 +8,7 @@ use Sylius\Bundle\ThemeBundle\Form\Type\ThemeNameChoiceType;
 use Sylius\Bundle\TaxonomyBundle\Form\Type\TaxonCodeChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Toro\Bundle\CmsBundle\Form\Type\YamlType;
 
 class ChannelTypeExtension extends AbstractTypeExtension
 {
@@ -32,6 +33,11 @@ class ChannelTypeExtension extends AbstractTypeExtension
                 'required' => false,
                 'empty_data' => null,
                 'placeholder' => 'Please select theme',
+            ])
+            ->add('options', YamlType::class, [
+                'label' => 'Options',
+                'required' => false,
+                'empty_data' => [],
             ])
         ;
     }
