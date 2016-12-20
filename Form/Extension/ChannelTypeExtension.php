@@ -34,8 +34,8 @@ class ChannelTypeExtension extends AbstractTypeExtension
                 'empty_data' => null,
                 'placeholder' => 'Please select theme',
             ])
-            ->add('options', YamlType::class, [
-                'label' => 'Options',
+            ->add('settings', YamlType::class, [
+                'label' => 'Settings',
                 'required' => false,
                 'empty_data' => [],
             ])
