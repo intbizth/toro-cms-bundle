@@ -5,6 +5,11 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="toro.form.channel_based_image_collection_configure_resolver" class="Toro\Bundle\CmsBundle\Form\ChannelBasedImageCollectionConfigureResolver" decorates="toro.form.image_collection_configure_resolver">
+            <argument type="service" id="toro.form.channel_based_image_collection_configure_resolver.inner"/>
+            <argument type="service" id="sylius.context.channel"/>
+        </service>
+
         <service id="toro.form.type.post" class="Toro\Bundle\CmsBundle\Form\Type\PostType">
             <argument>%toro.model.post.class%</argument>
             <argument type="collection"><argument>toro</argument></argument>
