@@ -13,7 +13,6 @@
         </id>
 
         <field name="viewers" type="integer" nullable="false" />
-        <field name="lastViewerStampTime" type="datetime" nullable="true" />
         <field name="published" type="boolean" nullable="false" />
         <field name="partial" type="boolean" nullable="false" />
 

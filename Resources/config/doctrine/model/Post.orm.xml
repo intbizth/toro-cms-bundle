@@ -17,7 +17,6 @@
         <field name="likeTotal" type="integer" nullable="false" />
         <field name="dislikeTotal" type="integer" nullable="false" />
         <field name="viewers" type="integer" nullable="false" />
-        <field name="lastViewerStampTime" type="datetime" nullable="true" />
         <field name="published" type="boolean" nullable="false"/>
         <field name="publishedAt" type="datetime" nullable="true"/>
         <field name="type" type="string" nullable="true"/>

@@ -101,24 +101,28 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         /** @var ResourceViewerInterface $rv */
         $this->logEntities[] = $rv = $this->factory->createNew();
 
-        if ($resource->isViewerLogEnabled()) {
-            $rv->setResourceName($class);
-            $rv->setIp($ip);
-            $rv->setResourceId($resource->getId());
-            $rv->setMeta($request->headers->all());
+        /** @var ResourceViewerInterface $lastLog */
+        $lastLog = $this->manager->getRepository(get_class($rv))->findBy(
+            ['ip' => $ip, 'resourceId' => $resource->getId(), 'resourceName' => $class],
+            ['id' => 'DESC'], 1
+        );
 
-            if ($this->tokenStorage && $this->tokenStorage->getToken()) {
-                $user = $this->tokenStorage->getToken()->getUser();
+        $rv->setResourceName($class);
+        $rv->setIp($ip);
+        $rv->setResourceId($resource->getId());
+        $rv->setMeta($request->headers->all());
 
-                if ($user instanceof UserInterface) {
-                    $rv->setUser($user);
-                }
+        if ($this->tokenStorage && $this->tokenStorage->getToken()) {
+            $user = $this->tokenStorage->getToken()->getUser();
+
+            if ($user instanceof UserInterface) {
+                $rv->setUser($user);
             }
-
-            $this->manager->persist($rv);
         }
 
-        $lastLog = $resource->getLastViewerStampTime();
+        $this->manager->persist($rv);
+
+        $lastLog = (empty($lastLog) ? null : $lastLog[0]->getCreatedAt());
 
         if ($lastLog && ($lastLog->getTimestamp() > strtotime('-1 day'))) {
             return;
@@ -130,7 +134,6 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
 
         $manager->getConnection()->update($manager->getClassMetadata($class)->getTableName(), [
             'viewers' => $resource->getViewers(),
-            'last_viewer_stamp_time' => $resource->getLastViewerStampTime()->format('Y-m-d H:i:s'),
         ],['id' => $resource->getId()]);
     }
 
