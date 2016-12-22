@@ -99,13 +99,25 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $class = get_class($resource);
 
         /** @var ResourceViewerInterface $rv */
-        $this->logEntities[] = $rv = $this->factory->createNew();
+        $rv = $this->factory->createNew();
 
-        /** @var ResourceViewerInterface $lastLog */
-        $lastLog = $this->manager->getRepository(get_class($rv))->findBy(
+        /** @var ResourceViewerInterface[] $logs */
+        $logs = $this->manager->getRepository(get_class($rv))->findBy(
             ['ip' => $ip, 'resourceId' => $resource->getId(), 'resourceName' => $class],
             ['id' => 'DESC'], 1
         );
+
+        $lastLog = (empty($logs) ? null : $logs[0]->getCreatedAt());
+
+        if ($lastLog && ($lastLog->getTimestamp() > strtotime('-1 day'))) {
+            return;
+        }
+
+        // remove old log
+        foreach ($logs as $i => $log) {
+            $this->logEntities[] = $log;
+            $this->manager->remove($log);
+        }
 
         $rv->setResourceName($class);
         $rv->setIp($ip);
@@ -122,15 +134,10 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
 
         $this->manager->persist($rv);
 
-        $lastLog = (empty($lastLog) ? null : $lastLog[0]->getCreatedAt());
-
-        if ($lastLog && ($lastLog->getTimestamp() > strtotime('-1 day'))) {
-            return;
-        }
+        $this->logEntities[] = $rv;
 
         // viewer ++
         $resource->increaseViewer();
-        $resource->setLastViewerStampTime(new \DateTime());
 
         $manager->getConnection()->update($manager->getClassMetadata($class)->getTableName(), [
             'viewers' => $resource->getViewers(),
