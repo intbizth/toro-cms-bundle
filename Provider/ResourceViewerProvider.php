@@ -126,9 +126,12 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
 
         // viewer ++
         $resource->increaseViewer();
+        $resource->setLastViewerStampTime(new \DateTime());
 
-        $table = $manager->getClassMetadata($class)->getTableName();
-        $manager->getConnection()->update($table, ['viewers' => $resource->getViewers()], ['id' => $resource->getId()]);
+        $manager->getConnection()->update($manager->getClassMetadata($class)->getTableName(), [
+            'viewers' => $resource->getViewers(),
+            'last_viewer_stamp_time' => $resource->getLastViewerStampTime()->format('Y-m-d H:i:s'),
+        ],['id' => $resource->getId()]);
     }
 
     /**
