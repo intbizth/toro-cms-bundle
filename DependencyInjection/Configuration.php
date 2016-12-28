@@ -54,6 +54,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('driver')->defaultValue(SyliusResourceBundle::DRIVER_DOCTRINE_ORM)->end()
                 ->scalarNode('fixture')->defaultFalse()->end()
+                ->scalarNode('locale_enabled')->defaultTrue()->end()
             ->end()
         ;
 

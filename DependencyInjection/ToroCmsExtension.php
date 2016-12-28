@@ -25,6 +25,10 @@ class ToroCmsExtension extends AbstractResourceExtension
             $loader->load('fixtures.xml');
         }
 
+        if ($config['locale_enabled']) {
+            $loader->load('locales.xml');
+        }
+
         if ($config['form_extension']['channel']) {
             $loader->load('forms/channel-extension.xml');
         }
