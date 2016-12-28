@@ -8,6 +8,7 @@ toro_cms_post:
     defaults:
         _controller: toro.controller.post:viewAction
         template: ToroCmsBundle::show.html.twig
+        templateVar: page
     requirements:
         slug: .+
 
