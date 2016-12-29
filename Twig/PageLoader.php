@@ -16,7 +16,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 {
     use ContainerAwareTrait;
 
-    private $preg = "/^(ToroCmsBundle|ToroWidgetBundle)(.*)/";
+    private $preg = "/^(ToroCms|ToroWidget)(.*)/";
 
     /**
      * @var \Twig_LoaderInterface
