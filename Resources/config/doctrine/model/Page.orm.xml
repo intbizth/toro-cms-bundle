@@ -15,6 +15,7 @@
         <field name="viewers" type="integer" nullable="false" />
         <field name="published" type="boolean" nullable="false" />
         <field name="partial" type="boolean" nullable="false" />
+        <field name="deletable" type="boolean" nullable="false" />
 
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>

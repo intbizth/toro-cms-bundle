@@ -33,6 +33,11 @@ class Page implements PageInterface
      */
     protected $partial = true;
 
+    /**
+     * @var boolean
+     */
+    protected $deletable = true;
+
     public function __construct()
     {
         $this->initializeTranslationsCollection();
@@ -132,6 +137,22 @@ class Page implements PageInterface
     public function getCompileContent()
     {
         return $this->getBody();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDeletable($deletable)
+    {
+        $this->deletable = $deletable;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDeletable()
+    {
+        return $this->deletable;
     }
 
     /**

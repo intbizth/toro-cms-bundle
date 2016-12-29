@@ -14,7 +14,8 @@ interface PageInterface extends
     TranslatableInterface,
     OptionableInterface,
     SlugAwareInterface,
-    ViewerableInterface
+    ViewerableInterface,
+    DisableDeletionInterface
 {
     /**
      * @return string

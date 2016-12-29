@@ -53,9 +53,13 @@
             <argument type="service" id="request_stack"/>
         </service>
 
-        <service id="sylius.listener.channel" class="Toro\Bundle\CmsBundle\EventListener\ChannelDeletionListener">
+        <service id="sylius.listener.channel_deletion" class="Toro\Bundle\CmsBundle\EventListener\ChannelDeletionListener">
             <argument type="service" id="sylius.repository.channel"/>
             <tag name="kernel.event_listener" event="sylius.channel.pre_delete" method="onChannelPreDelete"/>
+        </service>
+
+        <service id="toro.listener.disable_deletion" class="Toro\Bundle\CmsBundle\EventListener\DisableDeletionListener">
+            <tag name="kernel.event_listener" event="toro.page.pre_delete" method="onResourcePreDelete"/>
         </service>
 
         <service id="toro.listener.log_viwer" class="Toro\Bundle\CmsBundle\EventListener\PageViewerLogListener">

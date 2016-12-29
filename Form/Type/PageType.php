@@ -28,6 +28,10 @@ class PageType extends AbstractResourceType
                 'required' => false,
                 'label' => 'Partial'
             ])
+            ->add('deletable', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Deletable'
+            ])
             ->add('options', PageOptionType::class)
             ->add('translations', ResourceTranslationsType::class, [
                 'entry_type' => PageTranslationType::class
