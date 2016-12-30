@@ -9,7 +9,7 @@ class TypeTestExtension extends \Twig_Extension
      */
     public function getTests()
     {
-        return array('type_of' => new \Twig_SimpleTest($this, 'getOfType'));
+        return array('typeof' => new \Twig_SimpleTest('typeof', [$this, 'getTypeOf']));
     }
 
     /**
@@ -27,7 +27,7 @@ class TypeTestExtension extends \Twig_Extension
      *
      * @return bool
      */
-    public function getOfType($var, $typeTest = null, $className = null)
+    public function getTypeOf($var, $typeTest = null, $className = null)
     {
         switch ($typeTest) {
             default:
