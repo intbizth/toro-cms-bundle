@@ -9,6 +9,10 @@
             <tag name="twig.extension"/>
         </service>
 
+        <service id="toro_cms.twig.type_test" class="Toro\Bundle\CmsBundle\Twig\TypeTestExtension">
+            <tag name="twig.extension"/>
+        </service>
+
         <service id="toro_cms.twig.likeable" class="Toro\Bundle\CmsBundle\Twig\HasUserLikeExtension">
             <argument type="service" id="doctrine"/>
             <tag name="twig.extension"/>
