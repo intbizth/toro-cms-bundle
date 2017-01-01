@@ -76,5 +76,9 @@
             <tag name="kernel.event_listener" event="toro_cms.on_page_show" method="insertLog"/>
             <tag name="kernel.event_listener" event="kernel.terminate" method="flushLog"/>
         </service>
+
+        <service id="toro.listener.canonicalizer" class="Toro\Bundle\CmsBundle\EventListener\UniqueTokenAssignerListener">
+            <tag name="doctrine.event_listener" event="prePersist" />
+        </service>
     </services>
 </container>
