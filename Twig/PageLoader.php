@@ -16,7 +16,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 {
     use ContainerAwareTrait;
 
-    private $preg = "/^(ToroCms|ToroWidget)(.*)/";
+    private $preg = "/^(ToroCms|ToroWidget|@ToroCms|@ToroWidget)(.*)/";
 
     /**
      * @var \Twig_LoaderInterface
@@ -90,7 +90,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
     public function getCacheKey($name)
     {
         try {
-            return $this->findTemplate($name)->getOptions()->getCompiled();
+            return $this->findTemplate($name)->getId();
         } catch (\Exception $exception) {
             return $this->decoratedLoader->getCacheKey($name);
         }
@@ -136,19 +136,19 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
         $this->isSupported($logicalName);
         $slug = $this->getSlug();
 
-        // if (array_key_exists($slug, $this->cache)) {
-        //     if ($this->templates[$slug] === $logicalName && false !== $this->cache[$slug]) {
-        //         $this->addTwigGlobalVar($this->cache[$slug]);
+        if (array_key_exists($slug, $this->cache)) {
+            if ($this->templates[$slug] === $logicalName && false !== $this->cache[$slug]) {
+                $this->addTwigGlobalVar($this->cache[$slug]);
 
-        //         return $this->cache[$slug];
-        //     }
+                return $this->cache[$slug];
+            }
 
-        //     throw new \InvalidArgumentException();
-        // }
+            throw new \InvalidArgumentException();
+        }
 
-        // $this->templates[$slug] = $logicalName;
-        // $this->cache[$slug] = false;
-        // $this->cache[$slug] = $page = $this->findPage($slug);
+        $this->templates[$slug] = $logicalName;
+        $this->cache[$slug] = false;
+        $this->cache[$slug] = $page = $this->findPage($slug);
 
         $this->addTwigGlobalVar($page);
 
