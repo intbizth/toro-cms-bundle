@@ -16,6 +16,10 @@ class UniqueTokenAssignerListener
             return;
         }
 
+        if ($object->getUniqueToken()) {
+            return;
+        }
+
         $object->setUniqueToken(
             (new UniqueTokenGenerator())->generate(10)
         );
