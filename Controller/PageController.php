@@ -39,6 +39,14 @@ class PageController extends ResourceController
     }
 
     /**
+     * @return bool
+     */
+    private function isDebug()
+    {
+        return $this->get('kernel')->isDebug();
+    }
+
+    /**
      * @param TranslatorInterface $translator
      * @param $locale
      *
@@ -117,6 +125,59 @@ class PageController extends ResourceController
         ]);
     }
 
+    /**
+     * @param string $content
+     * @param OptionableInterface $context
+     *
+     * @return string
+     */
+    private function printWidget($content, OptionableInterface $context)
+    {
+        if (preg_match_all('/\{\{\s?([a-zA-Z0-9_]+)\s?\}\}/', $content, $matches)) {
+            $data = (array) $context->getOptions()->getData();
+            $widgets = array_key_exists('widgets', $data) ? $data['widgets'] : [];
+            $keys = array_keys($widgets);
+
+            $widgetHolders = array_values(array_unique($matches[0]));
+            $widgetNames = array_values(array_unique($matches[1]));
+            $exitings = [];
+
+            foreach ($widgetNames as $name) {
+                if (in_array($name, $keys)) {
+                    $exitings[] = $name;
+                } else {
+                    if ($this->isDebug()) {
+                        throw new \LogicException('Not found widget named: ' . $name);
+                    }
+                }
+            }
+
+            foreach ($exitings as $i => $exiting) {
+                if (!array_key_exists('name', $widgets[$exiting])) {
+                    if ($this->isDebug()) {
+                        throw new \LogicException('Required widget name for ' . $exiting);
+                    }
+
+                    continue;
+                }
+
+                $widgetName = $widgets[$exiting]['name'];
+                $widgetOptions = array_key_exists('options', $widgets[$exiting])
+                    ? json_encode($widgets[$exiting]['options'], JSON_FORCE_OBJECT)
+                    : null;
+
+                $content = str_replace($widgetHolders[$i], sprintf('[[ %s(%s) ]]', $widgetName, $widgetOptions), $content);
+            }
+
+            // clear holders
+            foreach ($widgetHolders as $holder) {
+                $content = str_replace($holder, '', $content);
+            }
+        }
+
+        return $content;
+    }
+
     public function partialAction(Request $request, $slug)
     {
         if (!$page = $this->findPage($slug, true)) {
@@ -146,7 +207,7 @@ class PageController extends ResourceController
 
         // FIXME: with some cool idea!
         if ($page instanceof PageInterface) {
-            if ($request->getBaseUrl() !== '/app_dev.php') {
+            if (!$this->isDebug()) {
                 $page->setBody(
                     preg_replace('|/app_dev.php|', $request->getBaseUrl(), $page->getBody())
                 );
@@ -162,11 +223,14 @@ class PageController extends ResourceController
                 $pageContent = (string) $page->getCompileContent();
 
                 if (!empty(strip_tags($pageContent))) {
-                    $pageContent = $this->get('twig')->createTemplate($pageContent)->render([]);
+                    $pageContent = $this->printWidget($pageContent, $page);
+                    $pageContent = $this->get('twig')->createTemplate($pageContent)->render([
+                        'context' => $page,
+                    ]);
                 }
             } catch (\Twig_Error_Loader $e) {
                 if (!$this->get('kernel')->isDebug()) {
-                    $pageContent = preg_replace('/\{\{ (.*?)\}\}/is', '', $pageContent);
+                    $pageContent = preg_replace('/\{\{(.*)\}\}/is', '', $pageContent);
                 }
             } catch (\Twig_Error_Runtime $e) {
                 $pageContent = $e->getRawMessage();

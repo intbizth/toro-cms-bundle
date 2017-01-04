@@ -177,6 +177,8 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 
         $twig->addGlobal('page', $page);
         $twig->addGlobal('page_content', $pageContent);
+        $twig->addGlobal('template_style', $page->getOptions()->getStyle());
+        $twig->addGlobal('template_script', $page->getOptions()->getScript());
     }
 
     /**
