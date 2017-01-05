@@ -5,6 +5,10 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="toro_cms.twig.printif" class="Toro\Bundle\CmsBundle\Twig\PrintifExtension">
+            <tag name="twig.extension"/>
+        </service>
+
         <service id="toro_cms.twig.datetime" class="Toro\Bundle\CmsBundle\Twig\DatetimeExtension">
             <tag name="twig.extension"/>
         </service>
