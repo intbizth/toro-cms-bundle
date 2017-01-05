@@ -166,7 +166,7 @@ class PageController extends ResourceController
                     ? json_encode($widgets[$exiting]['options'], JSON_FORCE_OBJECT)
                     : null;
 
-                $content = str_replace($widgetHolders[$i], sprintf('[[ %s(%s) ]]', $widgetName, $widgetOptions), $content);
+                $content = str_replace($widgetHolders[$i], sprintf('{{ %s(%s) }}', $widgetName, $widgetOptions), $content);
             }
 
             // clear holders
