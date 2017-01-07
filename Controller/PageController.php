@@ -163,7 +163,7 @@ class PageController extends ResourceController
 
                 $widgetName = $widgets[$exiting]['name'];
                 $widgetOptions = array_key_exists('options', $widgets[$exiting])
-                    ? json_encode($widgets[$exiting]['options'], JSON_FORCE_OBJECT)
+                    ? json_encode($widgets[$exiting]['options'], JSON_UNESCAPED_UNICODE)
                     : null;
 
                 $content = str_replace($widgetHolders[$i], sprintf('{{ %s(%s) }}', $widgetName, $widgetOptions), $content);
