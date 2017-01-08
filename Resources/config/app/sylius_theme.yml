@@ -1,5 +1,5 @@
 sylius_theme:
-    context: sylius.theme.context.channel_based
+    context: toro_cms.theme.context.channel_based
     sources:
         filesystem:
             enabled: true

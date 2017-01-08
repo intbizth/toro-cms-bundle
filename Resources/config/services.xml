@@ -39,30 +39,30 @@
             <tag name="doctrine.event_subscriber" priority="8192"/>
         </service>
 
-        <service id="sylius.theme.context.channel_based"
+        <service id="toro_cms.theme.context.channel_based"
                  class="Toro\Bundle\CmsBundle\Theme\Context\ChannelBasedThemeContext"
                  public="false">
             <argument type="service" id="sylius.context.channel"/>
             <argument type="service" id="sylius.repository.theme"/>
         </service>
 
-        <service id="sylius.context.channel.cached"
+        <service id="toro_cms.context.channel.cached"
                  class="Sylius\Component\Channel\Context\CachedPerRequestChannelContext"
                  decorates="sylius.context.channel" public="false">
-            <argument type="service" id="sylius.context.channel.cached.inner"/>
+            <argument type="service" id="toro_cms.context.channel.cached.inner"/>
             <argument type="service" id="request_stack"/>
         </service>
 
-        <service id="sylius.listener.channel_deletion" class="Toro\Bundle\CmsBundle\EventListener\ChannelDeletionListener">
+        <service id="toro_cms.listener.channel_deletion" class="Toro\Bundle\CmsBundle\EventListener\ChannelDeletionListener">
             <argument type="service" id="sylius.repository.channel"/>
             <tag name="kernel.event_listener" event="sylius.channel.pre_delete" method="onChannelPreDelete"/>
         </service>
 
-        <service id="toro.listener.disable_deletion" class="Toro\Bundle\CmsBundle\EventListener\DisableDeletionListener">
+        <service id="toro_cms.listener.disable_deletion" class="Toro\Bundle\CmsBundle\EventListener\DisableDeletionListener">
             <tag name="kernel.event_listener" event="toro.page.pre_delete" method="onResourcePreDelete"/>
         </service>
 
-        <service id="toro.listener.log_viwer" class="Toro\Bundle\CmsBundle\EventListener\PageViewerLogListener">
+        <service id="toro_cms.listener.log_viwer" class="Toro\Bundle\CmsBundle\EventListener\PageViewerLogListener">
             <argument type="service">
                 <service id="toro_cms.provider.resource_viewer" class="Toro\Bundle\CmsBundle\Provider\ResourceViewerProvider" lazy="true">
                     <argument type="service" id="security.token_storage"/>
@@ -77,7 +77,7 @@
             <tag name="kernel.event_listener" event="kernel.terminate" method="flushLog"/>
         </service>
 
-        <service id="toro.listener.canonicalizer" class="Toro\Bundle\CmsBundle\EventListener\UniqueTokenAssignerListener">
+        <service id="toro_cms.listener.unique_token_assigner" class="Toro\Bundle\CmsBundle\EventListener\UniqueTokenAssignerListener">
             <tag name="doctrine.event_listener" event="prePersist" />
         </service>
     </services>
