@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>{% block title %}Whoops{% endblock %} - {{ branding.name }}</title>
+    <style type="text/css" media="screen">
+        body {
+            background-color: #F8F8F8;
+            color: #000;
+            margin: 0;
+            font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+        }
+
+        h1 {
+            font-size: 82px;
+            padding: 1rem 0 0 0;
+            margin: 0;
+        }
+
+        #error {
+            width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .left {
+            float: left;
+            text-align: center;
+            padding-bottom: 3rem;
+        }
+
+        .left img {
+            width: 200px;
+        }
+
+        .right {
+            padding-left: 220px;
+        }
+
+        .hint {
+            color: #999;
+        }
+
+    </style>
+</head>
+<body>
+
+<br><br><br>
+<br><br><br>
+
+<div id="error">
+    <div class="left">
+        <img src="{{ asset('assets/cms/images/errors/' ~ random([1, 7]) ~ '.png') }}">
+    </div>
+    <div class="right">
+        {% block error_message %}
+            <h1>Whoops!</h1>
+            <h2>Something went wrong :(</h2>
+
+            <p class="hint">
+                Our development team has been alerted to this error.
+                {% if branding.contact_email %}
+                    If you continue to have problems please contact support:
+                    <a href="mailto:{{ branding.contact_email }}">{{ branding.contact_email }}</a>
+                {% endif %}
+            </p>
+            <br>
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

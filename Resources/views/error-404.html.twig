@@ -1,0 +1,24 @@
+{% extends "error-500.html.twig" %}
+
+{% block title %}404{% endblock %}
+
+{% block error_message %}
+    <h1>404</h1>
+    <h2>Sorry! Not found page :(</h2>
+
+    <p class="hint">
+        {% set page_404 = render(path('toro_cms_partial_page', { slug: '_tpls/page-404' })) %}
+        {% if page_404 %}
+            {{ page_404|raw }}
+        {% else %}
+            Unfortunately, the page you've requested cannot be displayed.
+            It appears that you've lost your way either through an outdated link or a typo on the page you were trying to reach.
+            {% if base_url %}
+                <br>
+                <br>
+                <a href="{{ base_url }}">{{ base_url }}</a>
+            {% endif %}
+        {% endif %}
+    </p>
+    <br>
+{% endblock %}
