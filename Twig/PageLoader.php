@@ -16,7 +16,7 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 {
     use ContainerAwareTrait;
 
-    private $preg = "/^(ToroCms|ToroWidget|@ToroCms|@ToroWidget)(.*)/";
+    private $preg = "/^(Toro)(.*)/";
 
     /**
      * @var \Twig_LoaderInterface
@@ -198,6 +198,14 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
      */
     private function isSupported($logicalName)
     {
+        if (!$this->requestStack->getParentRequest()) {
+            throw new \LogicException();
+        }
+
+        if ($this->requestStack->getParentRequest() || 'html' === $this->requestStack->getCurrentRequest()->getRequestFormat()) {
+            throw new \LogicException();
+        }
+
         if ($this->getSlug() && preg_match($this->preg, trim($logicalName)) > 0) {
             return true;
         }
