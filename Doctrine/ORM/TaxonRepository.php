@@ -20,11 +20,13 @@ class TaxonRepository extends BaseTaxonRepository
 
         $queryBuilder
             ->andWhere($queryBuilder->expr()->eq('o.root', ':root'))
-            ->andWhere($queryBuilder->expr()->lt('o.right', ':right'))
             ->andWhere($queryBuilder->expr()->gt('o.left', ':left'))
+            ->andWhere($queryBuilder->expr()->lt('o.right', ':right'))
             ->setParameter('root', $root)
             ->setParameter('left', $taxon->getLeft())
             ->setParameter('right', $taxon->getRight())
+
+            ->orderBy('o.left', 'ASC')
         ;
 
         return $queryBuilder->getQuery()->getResult();
