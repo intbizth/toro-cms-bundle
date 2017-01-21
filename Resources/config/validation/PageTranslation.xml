@@ -5,7 +5,18 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
                                         http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd">
 
-    <class name="Toro\Bundle\CmsBundle\Model\PageTranslation">
+    <class name="Toro\Bundle\CmsBundle\Model\PageTranslation"><constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">
+                <value>locale</value>
+                <value>slug</value>
+            </option>
+            <option name="errorPath">slug</option>
+            <option name="message">This slug already in used.</option>
+            <option name="groups">
+                    <value>toro</value>
+                    <value>quick</value>
+                </option>
+        </constraint>
         <property name="title">
             <constraint name="NotBlank">
                 <option name="message">This value should not be blank.</option>
