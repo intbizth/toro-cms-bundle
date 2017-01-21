@@ -34,6 +34,20 @@
                 <option name="groups">toro</option>
             </constraint>
         </property>
+        <property name="vdoPath">
+            <constraint name="NotBlank">
+                <option name="message">This value should not be blank.</option>
+                <option name="groups">
+                    <value>toro_vdo</value>
+                </option>
+            </constraint>
+            <constraint name="Toro\Bundle\CmsBundle\Validator\Constraints\YoutubeEmbed">
+                <option name="message">%string% is not valid youtube embed url format.</option>
+                <option name="groups">
+                    <value>toro_vdo</value>
+                </option>
+            </constraint>
+        </property>
     </class>
 
 </constraint-mapping>

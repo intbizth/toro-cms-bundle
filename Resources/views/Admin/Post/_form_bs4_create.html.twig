@@ -6,12 +6,10 @@
             <div class="panel-body">
                 {{ form_row(form.channel) }}
                 {{ form_row(form.type) }}
-                {{ form_row(form.publishedAt) }}
-                {{ form_row(form.published) }}
             </div>
         </div>
     </div>
     <div class="col-sm-9">
-        {{ form_row(form.translations, { exclude: ['body', 'description'] }) }}
+        {{ form_row(form.translations, { exclude: ['body', 'description', 'vdoPath'] }) }}
     </div>
 </div>

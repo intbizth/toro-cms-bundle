@@ -11,11 +11,15 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="slug" column="slug" type="string" length="60"/>
-        <field name="title" column="title" type="string" length="100"/>
-        <field name="description" column="description" type="text" nullable="true"/>
-        <field name="body" column="body" type="text" nullable="true"/>
-        <field name="vdoPath" column="vdo_path" type="string" nullable="true"/>
+        <field name="slug" type="string" length="60"/>
+        <field name="title" type="string" length="100"/>
+        <field name="description" type="text" nullable="true"/>
+        <field name="body" type="text" nullable="true"/>
+        <field name="vdoPath" type="string" nullable="true"/>
+
+        <unique-constraints>
+            <unique-constraint columns="locale,slug" name="slug_uidx" />
+        </unique-constraints>
     </mapped-superclass>
 
 </doctrine-mapping>
