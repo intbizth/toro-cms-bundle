@@ -5,3 +5,15 @@ imports:
     - { resource: "@ToroCmsBundle/Resources/config/app/sylius_taxonomy.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/stof_doctrine_extensions.yml" }
     - { resource: "@ToroCmsBundle/Resources/config/app/fixtures/pages.yml" }
+
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                auto_mapping: true
+                mappings:
+                    SyliusResourceBundle:
+                        type: annotation
+                        prefix: Sylius\Bundle\ResourceBundle\Model
+                        dir: Model
+                        is_bundle: true
