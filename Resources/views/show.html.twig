@@ -1,5 +1,31 @@
-{% extends 'ToroCmsBundle::layout.html.twig' %}
+{% extends '@ToroCmslayout.html.twig' %}
 
 {% block content %}
-    {{ page.body|raw }}
+    {% if template_content %}
+        {{ template_content|raw }}
+    {% else %}
+        <h1>{{ page.title }}</h1>
+        <p>{{ page.body|raw }}</p>
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>.card-page {border: none;}</style>
+
+    {%- if template_style -%}
+        <style type="text/css">
+            {{ template_style|raw }}
+        </style>
+    {%- endif -%}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {%- if template_script -%}
+        <script type="text/javascript">
+            {{ template_script|raw }}
+        </script>
+    {%- endif -%}
 {% endblock %}
