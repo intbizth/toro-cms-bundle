@@ -280,7 +280,7 @@ class PageController extends ResourceController
                 throw new \LogicException("Empty template file, please config under your routing. ");
             }
 
-            $view->setTemplate($templating);
+            $view->setTemplate($template);
         }
 
         return $this->viewHandler->handle($configuration, $view);
