@@ -258,16 +258,11 @@ class PageController extends ResourceController
             $template = 'ToroCmsBundle::blank.html.twig';
         }
 
-        if (!$template) {
-            throw new \LogicException("Empty template file, please config under your routing. ");
-        }
-
         $this->get('event_dispatcher')->dispatch('toro_cms.on_page_show', new GenericEvent($page, [
             'manager' => $request->get('manager', $this->get('toro.manager.page'))
         ]));
 
         $view = View::create()
-            ->setTemplate($template)
             ->setData([
                 $templateVar => $page,
                 'page_content' => $pageContent,
@@ -278,6 +273,15 @@ class PageController extends ResourceController
         ;
 
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
+
+        if ($configuration->isHtmlRequest()) {
+
+            if (!$template) {
+                throw new \LogicException("Empty template file, please config under your routing. ");
+            }
+
+            $view->setTemplate($templating);
+        }
 
         return $this->viewHandler->handle($configuration, $view);
     }
