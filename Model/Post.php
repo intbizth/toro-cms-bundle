@@ -53,6 +53,7 @@ class Post implements PostInterface
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->initializeTranslationsCollection();
     }
 
