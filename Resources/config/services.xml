@@ -80,5 +80,9 @@
         <service id="toro_cms.listener.unique_token_assigner" class="Toro\Bundle\CmsBundle\EventListener\UniqueTokenAssignerListener">
             <tag name="doctrine.event_listener" event="prePersist" />
         </service>
+
+        <service id="toro_cms.publishable_subscriber" class="Toro\Bundle\CmsBundle\EventListener\PublishableListener">
+            <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
     </services>
 </container>

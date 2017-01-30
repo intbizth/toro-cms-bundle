@@ -18,7 +18,8 @@ interface PostInterface extends
     ViewerableInterface,
     PostTranslationInterface,
     MediaAwareInterface,
-    LikeableInterface
+    LikeableInterface,
+    PublishableInterface
 {
     const TYPE_CONTENT = 'content';
     const TYPE_YOUTUBE = 'youtube';
@@ -42,26 +43,6 @@ interface PostInterface extends
      * @param string $body
      */
     public function setBody($body);
-
-    /**
-     * @return boolean
-     */
-    public function isPublished();
-
-    /**
-     * @param boolean $published
-     */
-    public function setPublished($published);
-
-    /**
-     * @return \DateTime
-     */
-    public function getPublishedAt();
-
-    /**
-     * @param \DateTime $publishedAt
-     */
-    public function setPublishedAt(\DateTime $publishedAt =  null);
 
     /**
      * @return string
