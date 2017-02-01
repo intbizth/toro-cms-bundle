@@ -41,14 +41,10 @@ final class ChannelBasedLocaleProvider implements LocaleProviderInterface
 
             return $channel
                 ->getLocales()
-                ->filter(function (LocaleInterface $locale) {
-                    return $locale->isEnabled();
-                })
                 ->map(function (LocaleInterface $locale) {
                     return $locale->getCode();
                 })
-                ->toArray()
-                ;
+                ->toArray();
         } catch (ChannelNotFoundException $exception) {
             return [$this->defaultLocaleCode];
         }
