@@ -238,4 +238,12 @@ class Post implements PostInterface
     {
         return new PostTranslation();
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getVisibleDate()
+    {
+        return $this->publishedAt ?: $this->createdAt;
+    }
 }
