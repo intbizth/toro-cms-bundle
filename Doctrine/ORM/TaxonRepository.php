@@ -34,8 +34,9 @@ class TaxonRepository extends BaseTaxonRepository
 
     /**
      * {@override}
+     * @fixme find in used and try to fixme
      */
-    public function findNodesTreeSorted()
+    public function findNodesTreeSorted($rootCode = NULL)
     {
         $taxons = [];
         $roots = $this->findRootNodes();
