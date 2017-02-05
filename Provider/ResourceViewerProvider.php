@@ -113,12 +113,6 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
             return;
         }
 
-        // remove old log
-        foreach ($logs as $i => $log) {
-            $this->logEntities[] = $log;
-            $this->manager->remove($log);
-        }
-
         $rv->setResourceName($class);
         $rv->setIp($ip);
         $rv->setResourceId($resource->getId());
@@ -142,6 +136,11 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $manager->getConnection()->update($manager->getClassMetadata($class)->getTableName(), [
             'viewers' => $resource->getViewers(),
         ],['id' => $resource->getId()]);
+
+        // remove old logs
+        $table = $manager->getClassMetadata($logClass)->getTableName();
+        $datetime = (new \DateTimeImmutable())->add(\DateInterval::createFromDateString('-1 day'))->format('Y-m-d H:i:s');
+        $manager->getConnection()->executeUpdate("DELETE FROM $table WHERE created_at < '$datetime'");
     }
 
     /**
