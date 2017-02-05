@@ -11,6 +11,13 @@
             <generator strategy="AUTO" />
         </id>
 
+        <indexes>
+            <index name="idx_resource_name" columns="resource_name"/>
+            <index name="idx_resource_id" columns="resource_id"/>
+            <index name="idx_ip" columns="ip"/>
+            <index name="idx_created_at" columns="created_at"/>
+        </indexes>
+
         <field name="resourceName" type="string" nullable="false" />
         <field name="resourceId" type="integer" nullable="false" />
         <field name="ip" type="string" nullable="true" />
