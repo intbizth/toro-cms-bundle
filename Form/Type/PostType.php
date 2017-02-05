@@ -27,10 +27,10 @@ class PostType extends AbstractResourceType
             ->add('type', ChoiceType::class, [
                 'required' => true,
                 'label' => 'Type',
-                'choices' => [
+                'choices' => array_flip([
                     PostInterface::TYPE_CONTENT => 'Content',
                     PostInterface::TYPE_YOUTUBE => 'Youtube',
-                ]
+                ])
             ])
             ->add('publishedAt', DateTimeType::class, array(
                 'required' => false,
