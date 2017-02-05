@@ -102,7 +102,7 @@ class ResourceViewerProvider implements ResourceViewerProviderInterface
         $rv = $this->factory->createNew();
 
         /** @var ResourceViewerInterface[] $logs */
-        $logs = $this->manager->getRepository(get_class($rv))->findBy(
+        $logs = $this->manager->getRepository($logClass = get_class($rv))->findBy(
             ['ip' => $ip, 'resourceId' => $resource->getId(), 'resourceName' => $class],
             ['id' => 'DESC'], 1
         );
