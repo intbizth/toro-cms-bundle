@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Intl\Intl;
 
-class LocaleTypeExtension extends AbstractTypeExtension
+final class LocaleTypeExtension extends AbstractTypeExtension
 {
     /**
      * @var RepositoryInterface
@@ -20,18 +20,11 @@ class LocaleTypeExtension extends AbstractTypeExtension
     private $localeRepository;
 
     /**
-     * @var string
-     */
-    private $baseLocale;
-
-    /**
-     * @param string $baseLocale
      * @param RepositoryInterface $localeRepository
      */
-    public function __construct(RepositoryInterface $localeRepository, $baseLocale)
+    public function __construct(RepositoryInterface $localeRepository)
     {
         $this->localeRepository = $localeRepository;
-        $this->baseLocale = $baseLocale;
     }
 
     /**
@@ -42,13 +35,13 @@ class LocaleTypeExtension extends AbstractTypeExtension
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $options = [
                 'label' => 'sylius.form.locale.name',
-                'choices_as_values' => true,
+                'choice_loader' => null,
             ];
 
             $locale = $event->getData();
-
             if ($locale instanceof LocaleInterface && null !== $locale->getCode()) {
                 $options['disabled'] = true;
+
                 $options['choices'] = [$this->getLocaleName($locale->getCode()) => $locale->getCode()];
             } else {
                 $options['choices'] = array_flip($this->getAvailableLocales());
@@ -56,15 +49,6 @@ class LocaleTypeExtension extends AbstractTypeExtension
 
             $form = $event->getForm();
             $form->add('code', \Symfony\Component\Form\Extension\Core\Type\LocaleType::class, $options);
-
-            if ($this->baseLocale !== $locale->getCode()) {
-                return;
-            }
-
-            $form->add('enabled', CheckboxType::class, [
-                'label' => 'sylius.form.locale.enabled',
-                'disabled' => true,
-            ]);
         });
     }
 
