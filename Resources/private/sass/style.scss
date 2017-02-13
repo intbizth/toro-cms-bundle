@@ -1,3 +1,15 @@
 [data-code-mirror].ui {
   padding: 0 !important;
 }
+
+.card-form-translations {
+    .nav-pills .nav-link.active {
+        color: #fff;
+        cursor: default;
+        background-color: #bbb;
+    }
+    .nav-link {
+        display: block;
+        padding: 0.1em .2em;
+    }
+}

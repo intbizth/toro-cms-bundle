@@ -1,1 +1,114 @@
 {% extends 'ToroCmsBundle:form:bootstrap_4_layout.html.twig' %}
+
+{% block collection_item_widget %}
+    {% spaceless %}
+        {% set form = child %}
+        {% set _block_item = block(form.vars.block_prefixes[1] ~ '_collection_item_widget') %}
+
+        {% if _block_item is not empty %}
+            {{ _block_item|raw }}
+        {% else %}
+
+            <div data-form-collection="item" data-form-collection-index="{{ index }}" class="collection-item">
+                <div class="collection-box{% if form|length == 1 %} unique-field{% endif %}">
+                    {% if allow_delete %}
+                        <div class="text-right">
+                            <a href="#" data-form-collection="delete" class="btn btn-danger">
+                                <i class="fa fa-trash-o collection-button-remove"></i> {{ button_delete_label|trans }}
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% if not form.children|length %}
+                        {{ form_widget(form) }}
+                    {% else %}
+                        {% set _block = block(form.vars.block_prefixes[1] ~ '_collection_widget')|default(block(form.vars.block_prefixes[2] ~ '_widget')|default(block(form.vars.block_prefixes[1] ~ '_widget'))) %}
+                        {% if _block is not empty %}
+                            {{ _block|raw }}
+                        {% else %}
+                            {{ form_rest(form) }}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block collection_widget -%}
+    {% spaceless %}
+        {% set attr = attr|merge({'class': attr.class|default ~ ' controls collection-widget'}) %}
+
+        {% if prototype is defined and allow_add %}
+            {% set index = '__name__' %}
+            {% set child = prototype %}
+            {% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
+        {%- endif -%}
+
+        <div data-form-type="collection" {{ block('widget_container_attributes') }}>
+            {{ form_errors(form) }}
+
+            {% if prototypes|default is iterable %}
+                {% for key, subPrototype in prototypes %}
+                    {% set index = '__name__' %}
+                    {% set child = subPrototype %}
+                    {% set value = block('collection_item_widget') %}
+                    <input type="hidden" data-form-prototype="{{ key }}" value="{{ value|e }}"/>
+                {% endfor %}
+            {% endif %}
+
+            <div data-form-collection="list" class="collection-list">
+                {% for child in form %}
+                    {% set index = loop.index0 %}
+                    {{ block('collection_item_widget') }}
+                {% endfor %}
+            </div>
+
+            {% if prototype is defined and allow_add %}
+                <a href="#" class="btn btn-success btn-block" data-form-collection="add">
+                    <i class="fa fa-plus"></i> {{ button_add_label|trans }}
+                </a>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{%- endblock collection_widget %}
+
+{% block sylius_translations_row -%}
+    <div class="card card-form card-form-translations mb-3">
+        <h5 class="card-header">
+            <div class="card-control float-right">
+                <ul class="nav nav-pills">
+                    {% for translation in form %}
+                        {% set active = loop.index0 ? '' : 'active' %}
+                        <li class="nav-item">
+                            <a class="nav-link {{ active }}" href="#{{ translation.vars.id }}" data-toggle="pill">
+                                {{ translation.vars.name|flag_icon }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {{ form.vars.label }}
+        </h5>
+
+        <div class="card-block">
+            <div class="card-text">
+                <div class="tab-content">
+                    {% for translation in form %}
+                        {% set active = loop.index0 ? '' : 'active' %}
+                        <div class="tab-pane {{ active }}" id="{{ translation.vars.id }}">
+                            {% for field in translation %}
+                                {% if exclude is defined %}
+                                    {% if field.vars.name not in exclude %}
+                                        {{ form_row(field) }}
+                                    {% endif %}
+                                {% else %}
+                                    {{ form_row(field) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock sylius_translations_row %}
