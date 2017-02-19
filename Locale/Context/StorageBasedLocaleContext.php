@@ -27,18 +27,26 @@ final class StorageBasedLocaleContext implements LocaleContextInterface
     private $localeProvider;
 
     /**
+     * @var string
+     */
+    private $defaultLocale;
+
+    /**
      * @param ChannelContextInterface $channelContext
      * @param LocaleStorageInterface $localeStorage
      * @param LocaleProviderInterface $localeProvider
+     * @param string $defaultLocale
      */
     public function __construct(
         ChannelContextInterface $channelContext,
         LocaleStorageInterface $localeStorage,
-        LocaleProviderInterface $localeProvider
+        LocaleProviderInterface $localeProvider,
+        $defaultLocale
     ) {
         $this->channelContext = $channelContext;
         $this->localeStorage = $localeStorage;
         $this->localeProvider = $localeProvider;
+        $this->defaultLocale = $defaultLocale;
     }
 
     /**
@@ -52,6 +60,8 @@ final class StorageBasedLocaleContext implements LocaleContextInterface
             $localeCode = $this->localeStorage->get($this->channelContext->getChannel());
         } catch (ChannelNotFoundException $exception) {
             throw new LocaleNotFoundException(null, $exception);
+        } catch (\Exception $exception) {
+            return $this->defaultLocale;
         }
 
         if (!in_array($localeCode, $availableLocalesCodes, true)) {

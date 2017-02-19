@@ -24,6 +24,7 @@
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="sylius.storage.locale" />
             <argument type="service" id="sylius.locale_provider" />
+            <argument type="string">%locale%</argument>
             <tag name="sylius.context.locale" />
         </service>
 
