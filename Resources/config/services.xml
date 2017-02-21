@@ -84,5 +84,8 @@
         <service id="toro_cms.publishable_subscriber" class="Toro\Bundle\CmsBundle\EventListener\PublishableListener">
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
+
+        <service id="toro_cms.assets_timestamp_version_strategy" class="Toro\Bundle\CmsBundle\Asset\VersionStrategy\TimestampVersionStrategy">
+        </service>
     </services>
 </container>
