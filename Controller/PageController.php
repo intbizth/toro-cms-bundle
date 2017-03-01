@@ -48,20 +48,16 @@ class PageController extends ResourceController
 
     /**
      * @param TranslatorInterface $translator
-     * @param $locale
      *
      * @return string
      */
-    private function transformLocale(TranslatorInterface $translator, $locale)
+    private function transformLocale(TranslatorInterface $translator)
     {
         $theme = $this->get('sylius.context.theme')->getTheme();
+        $locale = $translator->getLocale();
 
         if (null === $theme) {
             return $locale;
-        }
-
-        if (null === $locale) {
-            $locale = $translator->getLocale();
         }
 
         $locale = $locale . '@' . str_replace('/', '-', $theme->getName());
@@ -102,9 +98,9 @@ class PageController extends ResourceController
         $translator = $this->get('translator');
 
         foreach ($translations as $code => $messages) {
-            if ($this->isValidLocal($code)) {
+            if ($this->isValidLocal($code) && $code === $this->get('sylius.context.locale')->getLocaleCode()) {
                 $this->flatten($messages);
-                $translator->getCatalogue($this->transformLocale($translator, $code))->add($messages);
+                $translator->getCatalogue($this->transformLocale($translator))->add($messages);
             }
         }
     }

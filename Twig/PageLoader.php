@@ -260,20 +260,16 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
 
     /**
      * @param TranslatorInterface $translator
-     * @param $locale
      *
      * @return string
      */
-    private function transformLocale(TranslatorInterface $translator, $locale)
+    private function transformLocale(TranslatorInterface $translator)
     {
         $theme = $this->container->get('sylius.context.theme')->getTheme();
+        $locale = $translator->getLocale();
 
         if (null === $theme) {
             return $locale;
-        }
-
-        if (null === $locale) {
-            $locale = $translator->getLocale();
         }
 
         $locale = $locale . '@' . str_replace('/', '-', $theme->getName());
@@ -314,9 +310,9 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
         $translator = $this->container->get('translator');
 
         foreach ($translations as $code => $messages) {
-            if ($this->isValidLocal($code)) {
+            if ($this->isValidLocal($code) && $code === $this->localeContext->getLocaleCode()) {
                 $this->flatten($messages);
-                $translator->getCatalogue($this->transformLocale($translator, $code))->add($messages);
+                $translator->getCatalogue($this->transformLocale($translator))->add($messages);
             }
         }
     }
