@@ -52,7 +52,7 @@ class TaxonChoiceTypeExtension extends AbstractTypeExtension
             ->setDefaults([
                 'choices' => function (Options $options) {
                     if (null !== $options['root']) {
-                        $taxons = $this->taxonRepository->findChildren($options['root']->getCode());
+                        $taxons = $this->taxonRepository->findNodesTreeSorted($options['root']->getCode());
                     } else {
                         $taxons = $this->taxonRepository->findNodesTreeSorted();
                     }
