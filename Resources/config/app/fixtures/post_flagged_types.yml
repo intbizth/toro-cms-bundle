@@ -1,0 +1,29 @@
+toro_cms:
+    fixture: true
+
+sylius_fixtures:
+    suites:
+        default:
+            listeners:
+                logger: ~
+                temp_directory_purger: ~
+            fixtures:
+                post_flagged_type:
+                    priority: -1
+                    options:
+                        custom:
+                        -
+                            code: flagged
+                            name: Flagged
+                            singleActive: true
+                            config:
+                                yes_icon: "fa fa-flag"
+                                no_icon: "fa fa-flag-o"
+
+                        -
+                            code: featured
+                            name: Featured
+                            singleActive: false
+                            config:
+                                yes_icon: "fa fa-heart"
+                                no_icon: "fa fa-heart-o"
