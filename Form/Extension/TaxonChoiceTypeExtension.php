@@ -67,13 +67,15 @@ class TaxonChoiceTypeExtension extends AbstractTypeExtension
                 'choice_label' => 'name',
                 'choice_translation_domain' => false,
                 'root' => null,
+                'root_code' => null,
                 'filter' => null,
             ])
             ->setAllowedTypes('root', [TaxonInterface::class, 'string', 'null'])
+            ->setAllowedTypes('root_code', ['string', 'null'])
             ->setAllowedTypes('filter', ['callable', 'null'])
             ->setNormalizer('root', function (Options $options, $value) {
-                if (is_string($value)) {
-                    return $this->taxonRepository->findOneBy(['code' => $value]);
+                if (is_string($value) || $options['root_code']) {
+                    return $this->taxonRepository->findOneBy(['code' => $value ?: $options['root_code']]);
                 }
 
                 return $value;
