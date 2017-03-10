@@ -10,6 +10,12 @@
         <import resource="forms.xml"/>
     </imports>
 
+    <parameters>
+        <parameter key="toro_cms_analytic_share_count_key"></parameter>
+        <parameter key="toro_cms_analytic_config_file"></parameter>
+        <parameter key="toro_cms_analytic_view_id"></parameter>
+    </parameters>
+
     <services>
         <service id="toro_cms.twig_loader" public="true" class="Toro\Bundle\CmsBundle\Twig\PageLoader"
                  decorates="sylius.theme.twig.loader">
@@ -86,6 +92,33 @@
         </service>
 
         <service id="toro_cms.assets_timestamp_version_strategy" class="Toro\Bundle\CmsBundle\Asset\VersionStrategy\TimestampVersionStrategy">
+        </service>
+
+        <service id="toro_cms.analytic" class="Toro\Bundle\CmsBundle\Analytic\GoogleAnalyticAndShare">
+            <argument type="service" id="analytic_share_cache"/>
+            <argument>%toro_cms_analytic_config_file%</argument>
+            <argument>%toro_cms_analytic_view_id%</argument>
+            <argument>%toro_cms_analytic_share_count_key%</argument>
+            <call method="registerProvider">
+                <argument type="service">
+                    <service class="SocialShare\Provider\Google"/>
+                </argument>
+            </call>
+            <call method="registerProvider">
+                <argument type="service">
+                    <service class="Toro\Bundle\CmsBundle\Analytic\Provider\Twitter"/>
+                </argument>
+            </call>
+            <call method="registerProvider">
+                <argument type="service">
+                    <service class="SocialShare\Provider\Pinterest"/>
+                </argument>
+            </call>
+            <call method="registerProvider">
+                <argument type="service">
+                    <service class="Toro\Bundle\CmsBundle\Analytic\Provider\Facebook"/>
+                </argument>
+            </call>
         </service>
     </services>
 </container>
