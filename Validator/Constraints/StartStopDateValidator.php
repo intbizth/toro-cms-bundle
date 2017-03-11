@@ -37,6 +37,16 @@ class StartStopDateValidator extends ConstraintValidator
             return;
         }
 
+        if (!$constraint->checkTime) {
+            /** @var \DateTime $startedAt */
+            /** @var \DateTime $stopedAt */
+            $startedAt = clone $startedAt;
+            $stopedAt = clone $stopedAt;
+
+            $startedAt->setTime(0, 0, 0);
+            $stopedAt->setTime(0, 0, 0);
+        }
+
         if ($startedAt >= $stopedAt) {
             $errorPath = null !== $constraint->errorPath ? $constraint->errorPath : $fields[0];
             $this->context->buildViolation($constraint->message)
