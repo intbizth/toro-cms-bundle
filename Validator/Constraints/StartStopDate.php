@@ -9,6 +9,7 @@ class StartStopDate extends Constraint
     public $message = 'Start date must less than stop date.';
     public $fields = array();
     public $errorPath = null;
+    public $checkTime = true;
 
     /**
      * {@inheritdoc}
