@@ -22,8 +22,6 @@ final class PostFixture extends AbstractResourceFixture
     {
         $resourceNode
             ->children()
-                ->arrayNode('taxon')
-                    ->prototype('scalar')->end()->end()
                 ->arrayNode('type')
                     ->prototype('scalar')->end()->end()
                 ->arrayNode('title')
@@ -48,10 +46,6 @@ final class PostFixture extends AbstractResourceFixture
                 ->arrayNode('published_at')
                     ->prototype('scalar')->end()->end()
                 ->arrayNode('created_at')
-                    ->prototype('scalar')->end()->end()
-                ->arrayNode('created_by')
-                    ->prototype('scalar')->end()->end()
-                ->arrayNode('images')
                     ->prototype('scalar')->end()->end()
         ;
     }
