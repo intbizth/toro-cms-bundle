@@ -70,8 +70,6 @@ final class PostFactory extends AbstractLocaleAwareFactory
         $this->documentManager = $registry->getManager($documentManagerName);
         $this->rootFolder = $rootFolder;
 
-        $this->checkAndCreateFolder();
-
         $this->optionsResolver =
             (new OptionsResolver())
                 ->setDefault('images', function (Options $options) {
@@ -138,6 +136,11 @@ final class PostFactory extends AbstractLocaleAwareFactory
     public function getDocumentRootFolder()
     {
         return $this->rootFolder;
+    }
+
+    public function getUploadFileHelper()
+    {
+        return $this->uploadFileHelper;
     }
 
     public function uploadCoverFor(PostInterface $post)
