@@ -110,20 +110,6 @@ final class PostFactory extends AbstractLocaleAwareFactory
         return $values;
     }
 
-    private function checkAndCreateFolder()
-    {
-        if ($this->documentManager->find(null, $dirname = $this->rootFolder.'/pages')) {
-            return;
-        }
-
-        $dir = new Directory();
-        $dir->setName('pages');
-        $dir->setId($dirname);
-
-        $this->documentManager->persist($dir);
-        $this->documentManager->flush();
-    }
-
     /**
      * {@inheritdoc}
      */

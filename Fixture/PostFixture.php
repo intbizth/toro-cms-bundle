@@ -16,31 +16,6 @@ final class PostFixture extends AbstractResourceFixture
     }
 
     /**
-     * @param array $options
-     */
-    public function load(array $options)
-    {
-        $options = $this->optionsResolver->resolve($options);
-
-        $i = 0;
-        foreach ($options['custom'] as $key => $resourceOptions) {
-            $resource = $this->exampleFactory->create($key, $resourceOptions);
-
-            $this->objectManager->persist($resource);
-
-            ++$i;
-
-            if (0 === ($i % 10)) {
-                $this->objectManager->flush();
-                $this->objectManager->clear();
-            }
-        }
-
-        $this->objectManager->flush();
-        $this->objectManager->clear();
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function configureResourceNode(ArrayNodeDefinition $resourceNode)
