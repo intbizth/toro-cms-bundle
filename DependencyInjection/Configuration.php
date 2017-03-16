@@ -74,8 +74,6 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('channel')->defaultTrue()->cannotBeEmpty()->end()
-                        ->scalarNode('taxon')->defaultTrue()->cannotBeEmpty()->end()
-                        ->scalarNode('taxon_choice')->defaultTrue()->cannotBeEmpty()->end()
                     ->end()
                 ->end()
             ->end()

@@ -10,6 +10,17 @@
             <argument type="service" id="sylius.context.channel"/>
         </service>
 
+        <service id="toro.form.type.taxon" class="Toro\Bundle\CmsBundle\Form\Type\TaxonType">
+            <argument>%sylius.model.taxon.class%</argument>
+            <argument type="collection"><argument>sylius</argument></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="toro.form.type.taxon_choice" class="Toro\Bundle\CmsBundle\Form\Type\TaxonChoiceType">
+            <argument type="service" id="sylius.repository.taxon"/>
+            <tag name="form.type" />
+        </service>
+
         <service id="toro.form.type.post" class="Toro\Bundle\CmsBundle\Form\Type\PostType">
             <argument>%toro.model.post.class%</argument>
             <argument type="collection"><argument>toro</argument></argument>
