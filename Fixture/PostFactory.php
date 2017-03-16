@@ -129,4 +129,31 @@ final class PostFactory extends AbstractLocaleAwareFactory
 
         return $object;
     }
+
+    public function getDocumentManager()
+    {
+        return $this->documentManager;
+    }
+
+    public function getDocumentRootFolder()
+    {
+        return $this->rootFolder;
+    }
+
+    public function uploadCoverFor(PostInterface $post)
+    {
+        // TODO: not yet finish
+
+        if ($this->documentManager->find(null, $dirname = $this->rootFolder . '/post-' . $post->getId())) {
+            return;
+        }
+
+        $dir = new Directory();
+        $dir->setName('pages');
+        $dir->setId($dirname);
+
+        $this->documentManager->persist($dir);
+        $this->documentManager->flush();
+    }
+
 }
