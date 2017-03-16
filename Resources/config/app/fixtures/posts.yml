@@ -1,0 +1,14 @@
+toro_cms:
+    fixture: true
+
+sylius_fixtures:
+    suites:
+        posts:
+            listeners:
+                logger: ~
+                temp_directory_purger: ~
+            fixtures:
+                post:
+                    priority: -1
+                    options:
+                        random: 20
