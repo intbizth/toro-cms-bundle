@@ -48,7 +48,7 @@ final class TaxonChoiceType extends AbstractType
 
         /** @var ChoiceView $choice */
         foreach ($view->vars['choices'] as $choice) {
-            $level = $choice->data->getLevel() - $rootLevel;
+            $level = $choice->data->getLevel() - $rootLevel - 1;
             $choice->label = str_repeat('— ', $level).$choice->label;
         }
     }
