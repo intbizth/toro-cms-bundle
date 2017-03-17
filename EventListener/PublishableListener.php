@@ -43,6 +43,11 @@ class PublishableListener implements EventSubscriber
             return;
         }
 
+        if ($object->isPublished() && !$object->getPublishedAt()) {
+            $object->setPublishedAt(new \DateTime());
+            return;
+        }
+
         if (!$date = $object->getPublishedAt()) {
             return;
         }
