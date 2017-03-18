@@ -5,9 +5,9 @@ namespace Toro\Bundle\CmsBundle\Form\Type;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -48,8 +48,14 @@ final class TaxonChoiceType extends AbstractType
 
         /** @var ChoiceView $choice */
         foreach ($view->vars['choices'] as $choice) {
+            $dash = '— ';
+
+            if (preg_match("/^$dash/", $choice->label)) {
+                continue;
+            }
+
             $level = $choice->data->getLevel() - $rootLevel - 1;
-            $choice->label = str_repeat('— ', $level).$choice->label;
+            $choice->label = str_repeat($dash, $level).$choice->label;
         }
     }
 
@@ -58,7 +64,7 @@ final class TaxonChoiceType extends AbstractType
      */
     public function getParent()
     {
-        return ChoiceType::class;
+        return EntityType::class;
     }
 
     /**
@@ -77,6 +83,7 @@ final class TaxonChoiceType extends AbstractType
                 'root' => null,
                 'root_code' => null,
                 'filter' => null,
+                'class' => $this->taxonRepository->getClassName(),
                 'choice_attr' => function(TaxonInterface $taxon) {
                     return [
                         // data option using for selectize
