@@ -102,7 +102,7 @@ final class PostFactory extends AbstractLocaleAwareFactory
         $values = [];
 
         foreach ($this->getLocales() as $locale) {
-            $values[$locale] = $this->faker->$fakeName($length);
+            $values[$locale] = $length ? $this->faker->$fakeName($length) : $this->faker->$fakeName;
         }
 
         return $values;
