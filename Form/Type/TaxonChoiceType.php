@@ -4,7 +4,6 @@ namespace Toro\Bundle\CmsBundle\Form\Type;
 
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
@@ -32,16 +31,6 @@ final class TaxonChoiceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        if ($options['multiple']) {
-            $builder->addModelTransformer(new CollectionToArrayTransformer());
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $rootLevel = $options['root'] ? $options['root']->getLevel() : 0;
@@ -55,7 +44,7 @@ final class TaxonChoiceType extends AbstractType
             }
 
             $level = $choice->data->getLevel() - $rootLevel - 1;
-            $choice->label = str_repeat($dash, $level).$choice->label;
+            $choice->label = @str_repeat($dash, $level).$choice->label;
         }
     }
 
