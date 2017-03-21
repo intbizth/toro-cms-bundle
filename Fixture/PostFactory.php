@@ -85,7 +85,7 @@ final class PostFactory extends AbstractLocaleAwareFactory
                     return $this->generateFakerWithLocale('sentence');
                 })
                 ->setDefault('body', function (Options $options) {
-                    return $this->generateFakerWithLocale('paragraph');
+                    return $this->generateFakerWithLocale('paragraphs', 10);
                 })
                 ->setDefault('type', function (Options $options) {
                     $types = [PostInterface::TYPE_CONTENT, PostInterface::TYPE_YOUTUBE];
@@ -97,12 +97,12 @@ final class PostFactory extends AbstractLocaleAwareFactory
         ;
     }
 
-    private function generateFakerWithLocale($fakeName, $length = null)
+    private function generateFakerWithLocale($fakeName, $length = null, $asText = true)
     {
         $values = [];
 
         foreach ($this->getLocales() as $locale) {
-            $values[$locale] = $length ? $this->faker->$fakeName($length) : $this->faker->$fakeName;
+            $values[$locale] = $length ? $this->faker->$fakeName($length, $asText) : $this->faker->$fakeName;
         }
 
         return $values;
