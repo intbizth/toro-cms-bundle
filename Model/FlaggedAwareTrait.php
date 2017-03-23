@@ -33,7 +33,7 @@ trait FlaggedAwareTrait
     public function addFlagged(FlaggedInterface $flagged)
     {
         if (!$this->hasFlagged($flagged)) {
-            $flagged->setPost($this);
+            $flagged->setFlaggedAware($this);
             $this->flaggeds->add($flagged);
         }
     }
@@ -44,7 +44,7 @@ trait FlaggedAwareTrait
     public function removeFlagged(FlaggedInterface $flagged)
     {
         if ($this->hasFlagged($flagged)) {
-            $flagged->setPost(null);
+            $flagged->setFlaggedAware(null);
             $this->flaggeds->removeElement($flagged);
         }
     }

@@ -31,4 +31,14 @@ interface FlaggedInterface extends ResourceInterface, TimestampableInterface
      * @param int $position
      */
     public function setPosition($position);
+
+    /**
+     * @return FlaggedAwareInterface
+     */
+    public function getFlaggedAware();
+
+    /**
+     * @param FlaggedAwareInterface $flaggedAware
+     */
+    public function setFlaggedAware(FlaggedAwareInterface $flaggedAware);
 }
