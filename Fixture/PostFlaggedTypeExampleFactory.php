@@ -2,13 +2,12 @@
 
 namespace Toro\Bundle\CmsBundle\Fixture;
 
-use Sylius\Component\Core\Formatter\StringInflector;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Sylius\Component\Taxation\Model\TaxCategoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Toro\Bundle\CoreBundle\Model\PostFlaggedTypeInterface;
 use Toro\Bundle\FixtureBundle\DataFixture\Factory\ExampleFactoryInterface;
+use Toro\Bundle\FixtureBundle\StringInflector;
 
 class PostFlaggedTypeExampleFactory implements ExampleFactoryInterface
 {
