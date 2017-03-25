@@ -3,6 +3,7 @@
 namespace Toro\Bundle\CmsBundle\Doctrine\ORM;
 
 use Sylius\Bundle\TaxonomyBundle\Doctrine\ORM\TaxonRepository as BaseTaxonRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaxonRepository extends BaseTaxonRepository
 {
@@ -53,5 +54,22 @@ class TaxonRepository extends BaseTaxonRepository
             ->setParameter('locale', $locale)
             ->addOrderBy('o.left')
         ;
+    }
+
+    public function findOneBySlugOr404($slug, $locale)
+    {
+        if (!$taxon = $this->createQueryBuilder('o')
+            ->addSelect('translation')
+            ->innerJoin('o.translations', 'translation')
+            ->andWhere('translation.slug = :slug')
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('slug', $slug)
+            ->setParameter('locale', $locale)
+            ->getQuery()
+            ->getOneOrNullResult()) {
+            throw new NotFoundHttpException(sprintf('The "%s" has not been found', $slug));
+        }
+
+        return $taxon;
     }
 }
