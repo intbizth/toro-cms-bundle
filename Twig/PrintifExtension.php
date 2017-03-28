@@ -22,6 +22,8 @@ class PrintifExtension extends \Twig_Extension
      */
     public function printif($text, $condition)
     {
-        return $condition ? $text : '';
+        $text = (array) $text;
+
+        return @$text[intval($condition)];
     }
 }
