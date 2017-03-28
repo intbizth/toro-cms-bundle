@@ -15,7 +15,7 @@ class PrintifExtension extends \Twig_Extension
     }
 
     /**
-     * @param string $text
+     * @param string|array $text | [true-text, false-text]
      * @param bool $condition
      *
      * @return string
@@ -24,6 +24,6 @@ class PrintifExtension extends \Twig_Extension
     {
         $text = (array) $text;
 
-        return @$text[intval($condition)];
+        return @$text[intval(!$condition)];
     }
 }
