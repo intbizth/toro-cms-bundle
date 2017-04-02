@@ -15,7 +15,12 @@
         </id>
 
         <indexes>
-            <index name="idx_type" columns="type"/>
+            <index columns="type" name="IDX_TYPE"/>
+            <index columns="published" name="IDX_PUBLISHED"/>
+            <index columns="published_at" name="IDX_PUBLISHED_AT"/>
+            <index columns="viewers" name="IDX_VIEWERS"/>
+            <index columns="like_total" name="IDX_LIKE_TOTAL"/>
+            <index columns="dislike_total" name="IDX_DISLIKE_TOTAL"/>
         </indexes>
 
         <field name="likeTotal" type="integer" nullable="false" />
