@@ -6,6 +6,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\SlugAwareInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
+use Symfony\Cmf\Bundle\MediaBundle\ImageInterface;
 use Toro\Bundle\MediaBundle\Model\MediaAwareInterface;
 
 interface PostInterface extends
@@ -53,4 +54,19 @@ interface PostInterface extends
      * @param string $type
      */
     public function setType($type);
+
+    /**
+     * @return string
+     */
+    public function getCoverId();
+
+    /**
+     * @return ImageInterface
+     */
+    public function getCover();
+
+    /**
+     * @param ImageInterface|null $cover
+     */
+    public function setCover(ImageInterface $cover = null);
 }

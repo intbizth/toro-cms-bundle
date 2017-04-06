@@ -188,9 +188,17 @@ class Post implements PostInterface
     /**
      * {@inheritdoc}
      */
+    public function getCoverId()
+    {
+        return $this->coverId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCover()
     {
-        return $this->cover;
+        return MediaReference::getImage($this->cover);
     }
 
     /**
