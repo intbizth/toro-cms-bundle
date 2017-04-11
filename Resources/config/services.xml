@@ -84,6 +84,7 @@
         </service>
 
         <service id="toro_cms.listener.unique_token_assigner" class="Toro\Bundle\CmsBundle\EventListener\UniqueTokenAssignerListener">
+            <argument type="service" id="sylius.random_generator"/>
             <tag name="doctrine.event_listener" event="prePersist" />
         </service>
 

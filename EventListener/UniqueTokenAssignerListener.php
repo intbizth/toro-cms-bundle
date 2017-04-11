@@ -3,11 +3,24 @@
 namespace Toro\Bundle\CmsBundle\EventListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Sylius\Component\Resource\Generator\RandomnessGeneratorInterface;
 use Toro\Bundle\CmsBundle\Model\UniqueTokenAwareInterface;
-use Toro\Bundle\CmsBundle\TokenAssigner\UniqueTokenGenerator;
 
 class UniqueTokenAssignerListener
 {
+    /**
+     * @var RandomnessGeneratorInterface
+     */
+    private $tokenGenerator;
+
+    public function __construct(RandomnessGeneratorInterface $tokenGenerator)
+    {
+        $this->tokenGenerator = $tokenGenerator;
+    }
+
+    /**
+     * @param LifecycleEventArgs $event
+     */
     public function prePersist(LifecycleEventArgs $event)
     {
         $object = $event->getObject();
@@ -20,8 +33,6 @@ class UniqueTokenAssignerListener
             return;
         }
 
-        $object->setUniqueToken(
-            (new UniqueTokenGenerator())->generate(10)
-        );
+        $object->setUniqueToken($this->tokenGenerator->generateUriSafeString(20));
     }
 }
