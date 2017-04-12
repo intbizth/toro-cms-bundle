@@ -33,11 +33,15 @@ final class TaxonChoiceType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $rootLevel = $options['root'] ? $options['root']->getLevel() : 0;
+        $rootLevel = 0;
 
         /** @var ChoiceView $choice */
-        foreach ($view->vars['choices'] as $choice) {
+        foreach ($view->vars['choices'] as $i => $choice) {
             $dash = '— ';
+
+            if (0 === $i) {
+                $rootLevel = $choice->data->getLevel();
+            }
 
             if (preg_match("/^$dash/", $choice->label)) {
                 continue;
@@ -64,7 +68,7 @@ final class TaxonChoiceType extends AbstractType
         $resolver
             ->setDefaults([
                 'choices' => function (Options $options) {
-                    return $this->getTaxons($options['root'] ? $options['root']->getCode() : null, $options['filter']);
+                    return $this->getTaxons($options['root'], $options['filter']);
                 },
                 'choice_value' => 'id',
                 'choice_label' => 'name',
@@ -89,11 +93,11 @@ final class TaxonChoiceType extends AbstractType
             ->setAllowedTypes('root_code', ['string', 'null'])
             ->setAllowedTypes('filter', ['callable', 'null'])
             ->setNormalizer('root', function (Options $options, $value) {
-                if (is_string($value) || $options['root_code']) {
-                    return $this->taxonRepository->findOneBy(['code' => $value ?: $options['root_code']]);
+                if ($value instanceof TaxonInterface) {
+                    return $value->getCode();
                 }
 
-                return $value;
+                return $value ?: $options['root_code'];;
             })
         ;
     }

@@ -17,6 +17,9 @@ class TaxonRepository extends BaseTaxonRepository
         $queryBuilder = $this->createQueryBuilder('o')
             ->addOrderBy('o.root')
             ->addOrderBy('o.left')
+
+            ->addSelect('t')
+            ->join('o.translations', 't')
         ;
 
         if (null !== $rootCode) {
