@@ -80,7 +80,9 @@ final class TaxonChoiceType extends AbstractType
                 'choice_attr' => function(TaxonInterface $taxon) {
                     return [
                         // data option using for selectize
+                        'data-parent-id' => $taxon->getParent() ? $taxon->getParent()->getId() : null,
                         'data-data' => json_encode([
+                            'id' => $taxon->getId(),
                             'code' => $taxon->getCode(),
                             'name' => $taxon->getName(),
                             'slug' => $taxon->getSlug(),
