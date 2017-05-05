@@ -86,6 +86,7 @@ final class TaxonChoiceType extends AbstractType
                             'code' => $taxon->getCode(),
                             'name' => $taxon->getName(),
                             'slug' => $taxon->getSlug(),
+                            'level' => $taxon->getLevel(),
                             'path_name' => $taxon->getPathName(),
                         ])
                     ];
