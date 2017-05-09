@@ -10,7 +10,7 @@ class URLify
      *
      * @return string
      */
-    private static function slug($text, $len = 60)
+    public static function slug($text, $len = 60)
     {
         // https://github.com/bryanbraun/anchorjs/blob/master/anchor.js#L221
         // Regex for finding the nonsafe URL characters (many need escaping): & +$,:;=?@"#{}|^~[`%!']./()*\
