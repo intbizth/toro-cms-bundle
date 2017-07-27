@@ -8,8 +8,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TaxonRepository extends BaseTaxonRepository
 {
     /**
-     * @bugfix https://github.com/Sylius/Sylius/pull/7437
-     *
      * {@inheritdoc}
      */
     public function findNodesTreeSorted($rootCode = null)
