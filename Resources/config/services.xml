@@ -8,12 +8,13 @@
         <import resource="twigs.xml"/>
         <import resource="themes.xml"/>
         <import resource="forms.xml"/>
+        <import resource="grids.xml"/>
     </imports>
 
     <parameters>
-        <parameter key="toro_cms_analytic_share_count_key"></parameter>
-        <parameter key="toro_cms_analytic_config_file"></parameter>
-        <parameter key="toro_cms_analytic_view_id"></parameter>
+        <parameter key="toro_cms_analytic_share_count_key">null</parameter>
+        <parameter key="toro_cms_analytic_config_file">null</parameter>
+        <parameter key="toro_cms_analytic_view_id">null</parameter>
     </parameters>
 
     <services>
