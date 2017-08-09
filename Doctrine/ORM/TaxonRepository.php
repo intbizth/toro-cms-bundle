@@ -44,17 +44,22 @@ class TaxonRepository extends BaseTaxonRepository
     /**
      * {@inheritdoc}
      */
-    public function createFilterQueryBuilder($locale, $rootCode = null)
+    public function createFilterQueryBuilder($locale, $parentCode = null)
     {
-        $queryBuilder = $this->createQueryBuilder('o');
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->addSelect('translation')
+            ->join('o.translations', 'translation')
+        ;
 
-        if ($rootCode) {
-            if (!$root = $this->findOneBy(['code' => $rootCode])) {
+        if ($parentCode) {
+            if (!$parent = $this->findOneBy(['code' => $parentCode])) {
                 return [];
             }
 
             return $queryBuilder
-                ->andWhere($queryBuilder->expr()->between('o.left', $root->getLeft(), $root->getRight()))
+                ->andWhere($queryBuilder->expr()->between('o.left', $parent->getLeft(), $parent->getRight()))
+                ->andWhere('o.root = :rootCode')
+                ->setParameter('rootCode', $parent->getRoot())
                 ->addOrderBy('o.left')
             ;
         }
