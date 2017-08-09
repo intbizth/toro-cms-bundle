@@ -12,7 +12,10 @@ class TaxonRepository extends BaseTaxonRepository
      */
     public function findNodesTreeSorted($rootCode = null)
     {
-        $queryBuilder = $this->createQueryBuilder('o');
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->addSelect('t')
+            ->join('o.translations', 't')
+        ;
 
         if ($rootCode) {
             if (!$root = $this->findOneBy(['code' => $rootCode])) {
