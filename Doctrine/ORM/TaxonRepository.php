@@ -12,23 +12,27 @@ class TaxonRepository extends BaseTaxonRepository
      */
     public function findNodesTreeSorted($rootCode = null)
     {
-        $queryBuilder = $this->createQueryBuilder('o')
-            ->addOrderBy('o.root')
-            ->addOrderBy('o.left')
+        $queryBuilder = $this->createQueryBuilder('o');
 
-            ->addSelect('t')
-            ->join('o.translations', 't')
-        ;
+        if ($rootCode) {
+            if (!$root = $this->findOneBy(['code' => $rootCode])) {
+                return [];
+            }
 
-        if (null !== $rootCode) {
-            $queryBuilder
-                ->join('o.root', 'root')
-                ->andWhere('root.code = :rootCode')
-                ->setParameter('rootCode', $rootCode)
+            return $queryBuilder
+                ->andWhere($queryBuilder->expr()->between('o.left', $root->getLeft(), $root->getRight()))
+                ->addOrderBy('o.left')
+                ->getQuery()->getResult()
             ;
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder
+            ->addSelect('parent')
+            ->innerJoin('o.parent', 'parent')
+            ->andWhere($queryBuilder->expr()->between('o.left', 'parent.left', 'parent.right'))
+            ->addOrderBy('o.left')
+            ->getQuery()->getResult()
+        ;
     }
 
     /**
@@ -39,10 +43,13 @@ class TaxonRepository extends BaseTaxonRepository
         $queryBuilder = $this->createQueryBuilder('o');
 
         if ($rootCode) {
-            $queryBuilder
-                ->innerJoin('o.root', 'root')
-                ->andWhere('root.code = :rootCode')
-                ->setParameter('rootCode', $rootCode)
+            if (!$root = $this->findOneBy(['code' => $rootCode])) {
+                return [];
+            }
+
+            return $queryBuilder
+                ->andWhere($queryBuilder->expr()->between('o.left', $root->getLeft(), $root->getRight()))
+                ->addOrderBy('o.left')
             ;
         }
 
