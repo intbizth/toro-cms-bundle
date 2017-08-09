@@ -10,20 +10,23 @@ class TaxonRepository extends BaseTaxonRepository
     /**
      * {@inheritdoc}
      */
-    public function findNodesTreeSorted($rootCode = null)
+     public function findNodesTreeSorted($parentCode = null)
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->addSelect('t')
             ->join('o.translations', 't')
         ;
 
-        if ($rootCode) {
-            if (!$root = $this->findOneBy(['code' => $rootCode])) {
+        if ($parentCode) {
+            /** @var TaxonInterface $parent */
+            if (!$parent = $this->findOneBy(['code' => $parentCode])) {
                 return [];
             }
 
             return $queryBuilder
-                ->andWhere($queryBuilder->expr()->between('o.left', $root->getLeft(), $root->getRight()))
+                ->andWhere($queryBuilder->expr()->between('o.left', $parent->getLeft(), $parent->getRight()))
+                ->andWhere('o.root = :rootCode')
+                ->setParameter('rootCode', $parent->getRoot())
                 ->addOrderBy('o.left')
                 ->getQuery()->getResult()
             ;
