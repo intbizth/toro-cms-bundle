@@ -9,21 +9,6 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 interface FlaggedTypeInterface extends CodeAwareInterface, ResourceInterface
 {
     /**
-     * @return int
-     */
-    public function getId();
-
-    /**
-     * @return string
-     */
-    public function getCode();
-
-    /**
-     * @param string $code
-     */
-    public function setCode($code);
-
-    /**
      * @return string
      */
     public function getName();

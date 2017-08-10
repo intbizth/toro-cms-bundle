@@ -63,7 +63,7 @@ abstract class FlaggedType implements FlaggedTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->code;
     }
@@ -71,7 +71,7 @@ abstract class FlaggedType implements FlaggedTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function setCode(?string $code): void
     {
         $this->code = $code;
     }
