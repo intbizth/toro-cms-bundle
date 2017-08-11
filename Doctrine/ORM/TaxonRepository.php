@@ -48,7 +48,8 @@ class TaxonRepository extends BaseTaxonRepository
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->addSelect('translation')
-            ->join('o.translations', 'translation')
+            ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
+            ->setParameter('locale', $locale)
         ;
 
         if ($parentCode) {
@@ -65,12 +66,9 @@ class TaxonRepository extends BaseTaxonRepository
         }
 
         return $queryBuilder
-            ->addSelect('translation')
             ->addSelect('parent')
             ->innerJoin('o.parent', 'parent')
-            ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
             ->andWhere($queryBuilder->expr()->between('o.left', 'parent.left', 'parent.right'))
-            ->setParameter('locale', $locale)
             ->addOrderBy('o.left')
         ;
     }
@@ -86,7 +84,7 @@ class TaxonRepository extends BaseTaxonRepository
             ->setParameter('locale', $locale)
             ->getQuery()
             ->getOneOrNullResult()) {
-            throw new NotFoundHttpException(sprintf('The "%s" has not been found', $slug));
+                throw new NotFoundHttpException(sprintf('The "%s" has not been found', $slug));
         }
 
         return $taxon;
