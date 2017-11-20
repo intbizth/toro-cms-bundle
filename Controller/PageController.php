@@ -192,10 +192,10 @@ class PageController extends ResourceController
             return Response::create();
         }
 
-        return self::viewAction($request, $page);
+        return self::viewAction($request, $page, true);
     }
 
-    public function viewAction(Request $request, $slug)
+    public function viewAction(Request $request, $slug, $isPartial = false)
     {
         $page = is_object($slug) ? $slug : $this->findPage($slug, false);
 
@@ -208,7 +208,7 @@ class PageController extends ResourceController
         }
 
         // redirect to localed slug
-        if ($page->getSlug() !== $slug) {
+        if (false === $isPartial && $page->getSlug() !== $slug) {
             $router = $this->get('router');
             $routeName = $request->get('_route');
 
