@@ -113,12 +113,28 @@ class PageController extends ResourceController
      */
     private function findPage($slug, $partial)
     {
-        return $this->repository->findPageForDisplay([
+        $localeCode = $this->get('sylius.context.locale')->getLocaleCode();
+        $defaultLocaleCode = $this->get('sylius.locale_provider')->getDefaultLocaleCode();
+        $channel = $this->get('sylius.context.channel')->getChannel();
+
+        $page = $this->repository->findPageForDisplay([
             'slug' => $slug,
             'partial' => $partial,
-            'locale' => $this->get('sylius.context.locale')->getLocaleCode(),
-            'channel' => $this->get('sylius.context.channel')->getChannel(),
+            'locale' => $localeCode,
+            'channel' => $channel,
         ]);
+
+        // fallback
+        if (!$page && $defaultLocaleCode !== $localeCode) {
+            $page = $this->repository->findPageForDisplay([
+                'slug' => $slug,
+                'partial' => $partial,
+                'locale' => $defaultLocaleCode,
+                'channel' => $channel,
+            ]);
+        }
+
+        return $page;
     }
 
     /**
