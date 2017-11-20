@@ -7,6 +7,7 @@ use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -120,21 +121,16 @@ class PageController extends ResourceController
         $page = $this->repository->findPageForDisplay([
             'slug' => $slug,
             'partial' => $partial,
-            'locale' => $localeCode,
+            'locale' => $defaultLocaleCode,
             'channel' => $channel,
         ]);
 
-        // fallback
-        if (!$page && $defaultLocaleCode !== $localeCode) {
-            $page = $this->repository->findPageForDisplay([
-                'slug' => $slug,
-                'partial' => $partial,
-                'locale' => $defaultLocaleCode,
-                'channel' => $channel,
-            ]);
+        if ($defaultLocaleCode === $localeCode) {
+            return $page;
         }
 
-        return $page;
+        // fallback, find without locale
+        return $this->repository->find($page->getId());
     }
 
     /**
@@ -209,6 +205,14 @@ class PageController extends ResourceController
             }
 
             throw new NotFoundHttpException("No page found - " . $slug);
+        }
+
+        // redirect to localed slug
+        if ($page->getSlug() !== $slug) {
+            $router = $this->get('router');
+            $routeName = $request->get('_route');
+
+            return RedirectResponse::create($router->generate($routeName ?: 'toro_cms_page', ['slug' => $page->getSlug()]));
         }
 
         $template = $request->get('template');
