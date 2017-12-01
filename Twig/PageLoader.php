@@ -75,19 +75,19 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSource($name)
+    public function getSourceContext($name): \Twig_Source
     {
         try {
             return $this->findTemplate($name)->getOptions()->getTemplating();
         } catch (\Exception $exception) {
-            return $this->decoratedLoader->getSource($name);
+            return $this->decoratedLoader->getSourceContext($name);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey($name)
+    public function getCacheKey($name): string
     {
         try {
             return $this->findTemplate($name)->getId();
@@ -103,9 +103,9 @@ class PageLoader implements \Twig_LoaderInterface, \Twig_ExistsLoaderInterface
     {
         try {
             return $this->findTemplate($name)
-                ->getOptions()->getUpdatedAt()
-                ->getTimestamp() <= $time
-            ;
+                    ->getOptions()->getUpdatedAt()
+                    ->getTimestamp() <= $time
+                ;
         } catch (\Exception $exception) {
             return $this->decoratedLoader->isFresh($name, $time);
         }

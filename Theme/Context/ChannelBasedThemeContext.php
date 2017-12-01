@@ -34,7 +34,7 @@ final class ChannelBasedThemeContext implements ThemeContextInterface
     /**
      * {@inheritdoc}
      */
-    public function getTheme(): ThemeInterface
+    public function getTheme(): ?ThemeInterface
     {
         try {
             /** @var ChannelInterface $channel */

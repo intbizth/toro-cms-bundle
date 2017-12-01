@@ -17,7 +17,7 @@ class TypeTestExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array('get_type' => new \Twig_Filter_Method($this, 'getType'));
+        return array('get_type' => new \Twig_SimpleFilter('get_type', [$this, 'getType']));
     }
 
     /**

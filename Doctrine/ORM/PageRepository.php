@@ -67,7 +67,7 @@ class PageRepository extends EntityRepository implements PageRepositoryInterface
         return $queryBuilder
             ->getQuery()
             ->getOneOrNullResult()
-        ;
+            ;
     }
 
     /**
@@ -85,13 +85,13 @@ class PageRepository extends EntityRepository implements PageRepositoryInterface
             ->setParameter('channel', $channel)
             ->getQuery()
             ->getOneOrNullResult()
-        ;
+            ;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = null)
+    protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = null): void
     {
         if (isset($criteria['channels'])) {
             $queryBuilder

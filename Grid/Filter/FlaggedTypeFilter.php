@@ -12,7 +12,7 @@ class FlaggedTypeFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(DataSourceInterface $dataSource, $name, $data, array $options)
+    public function apply(DataSourceInterface $dataSource, string $name, $data, array $options): void
     {
         $expr = $dataSource->getExpressionBuilder();
         $fields = array_key_exists('fields', $options) ? $options['fields'] : [$name];
