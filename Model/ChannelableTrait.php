@@ -14,7 +14,7 @@ trait ChannelableTrait
     /**
      * {@inheritdoc}
      */
-    public function getChannel()
+    public function getChannel(): ?BaseChannelInterface
     {
         return $this->channel;
     }
@@ -22,7 +22,7 @@ trait ChannelableTrait
     /**
      * {@inheritdoc}
      */
-    public function setChannel(BaseChannelInterface $channel = null)
+    public function setChannel(BaseChannelInterface $channel = null): void
     {
         $this->channel = $channel;
     }

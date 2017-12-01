@@ -68,7 +68,7 @@ class Post implements PostInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->getTranslation()->getSlug();
     }
@@ -76,7 +76,7 @@ class Post implements PostInterface
     /**
      * {@inheritdoc}
      */
-    public function setSlug($slug = null)
+    public function setSlug(?string $slug = null): void
     {
         $this->getTranslation()->setSlug($slug);
     }

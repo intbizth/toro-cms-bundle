@@ -33,7 +33,7 @@ final class ChannelBasedLocaleProvider implements LocaleProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getAvailableLocalesCodes()
+    public function getAvailableLocalesCodes(): array
     {
         try {
             /** @var ChannelInterface $channel */
@@ -53,7 +53,7 @@ final class ChannelBasedLocaleProvider implements LocaleProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getDefaultLocaleCode()
+    public function getDefaultLocaleCode(): string
     {
         try {
             /** @var ChannelInterface $channel */

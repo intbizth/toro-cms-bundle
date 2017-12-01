@@ -114,7 +114,7 @@ class ResourceViewer implements ResourceViewerInterface
     /**
      * {@inheritdoc}
      */
-    public function getUser()
+    public function getUser(): ?UserInterface
     {
         return $this->user;
     }
@@ -122,7 +122,7 @@ class ResourceViewer implements ResourceViewerInterface
     /**
      * {@inheritdoc}
      */
-    public function setUser(UserInterface $user = null)
+    public function setUser(?UserInterface $user = null): void
     {
         $this->user = $user;
     }

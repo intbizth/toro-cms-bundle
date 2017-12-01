@@ -6,7 +6,7 @@ use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 
 /**
- * @method PageTranslation getTranslation($local = null)
+ * @method PageTranslation getTranslation(?string $local = null)
  */
 class Page implements PageInterface
 {
@@ -54,7 +54,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->getTranslation()->getSlug();
     }
@@ -62,7 +62,7 @@ class Page implements PageInterface
     /**
      * {@inheritdoc}
      */
-    public function setSlug($slug = null)
+    public function setSlug(?string $slug = null): void
     {
         $this->getTranslation()->setSlug($slug);
     }
@@ -120,7 +120,7 @@ class Page implements PageInterface
      */
     public function setPartial(bool $partial)
     {
-       $this->partial = $partial;
+        $this->partial = $partial;
     }
 
     /**
