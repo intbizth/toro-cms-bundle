@@ -7,6 +7,7 @@ use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -113,12 +114,23 @@ class PageController extends ResourceController
      */
     private function findPage($slug, $partial)
     {
-        return $this->repository->findPageForDisplay([
+        $localeCode = $this->get('sylius.context.locale')->getLocaleCode();
+        $defaultLocaleCode = $this->get('sylius.locale_provider')->getDefaultLocaleCode();
+        $channel = $this->get('sylius.context.channel')->getChannel();
+
+        $page = $this->repository->findPageForDisplay([
             'slug' => $slug,
             'partial' => $partial,
-            'locale' => $this->get('sylius.context.locale')->getLocaleCode(),
-            'channel' => $this->get('sylius.context.channel')->getChannel(),
+            'locale' => $defaultLocaleCode,
+            'channel' => $channel,
         ]);
+
+        if ($defaultLocaleCode === $localeCode) {
+            return $page;
+        }
+
+        // fallback, find without locale
+        return $this->repository->find($page->getId());
     }
 
     /**
@@ -180,10 +192,10 @@ class PageController extends ResourceController
             return Response::create();
         }
 
-        return self::viewAction($request, $page);
+        return self::viewAction($request, $page, true);
     }
 
-    public function viewAction(Request $request, $slug)
+    public function viewAction(Request $request, $slug, $isPartial = false)
     {
         $page = is_object($slug) ? $slug : $this->findPage($slug, false);
 
@@ -193,6 +205,14 @@ class PageController extends ResourceController
             }
 
             throw new NotFoundHttpException("No page found - " . $slug);
+        }
+
+        // redirect to localed slug
+        if (false === $isPartial && $page->getSlug() !== $slug) {
+            $router = $this->get('router');
+            $routeName = $request->get('_route');
+
+            return RedirectResponse::create($router->generate($routeName ?: 'toro_cms_page', ['slug' => $page->getSlug()]));
         }
 
         $template = $request->get('template');
