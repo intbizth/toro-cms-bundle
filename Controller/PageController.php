@@ -130,7 +130,7 @@ class PageController extends ResourceController
         }
 
         // fallback, find without locale
-        return $this->repository->find($page->getId());
+        return $page ? $this->repository->find($page->getId()) : null;
     }
 
     /**
