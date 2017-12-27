@@ -26,9 +26,10 @@ class TaxonRepository extends BaseTaxonRepository
             return $queryBuilder
                 ->andWhere($queryBuilder->expr()->between('o.left', $parent->getLeft(), $parent->getRight()))
                 ->andWhere('o.root = :rootCode')
+                ->andWhere('o.id != :self')
                 ->setParameter('rootCode', $parent->getRoot())
+                ->setParameter('self', $parent)
                 ->addOrderBy('o.left')
-                ->getQuery()->getResult()
             ;
         }
 
