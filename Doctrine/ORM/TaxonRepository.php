@@ -25,11 +25,10 @@ class TaxonRepository extends BaseTaxonRepository
 
             return $queryBuilder
                 ->andWhere($queryBuilder->expr()->between('o.left', $parent->getLeft(), $parent->getRight()))
-                ->andWhere('o.root = :rootCode')
-                ->andWhere('o.id != :self')
-                ->setParameter('rootCode', $parent->getRoot())
-                ->setParameter('self', $parent)
+                ->andWhere('o.root = :rootCode')                
+                ->setParameter('rootCode', $parent->getRoot())              
                 ->addOrderBy('o.left')
+                ->getQuery()->getResult()
             ;
         }
 
@@ -61,6 +60,8 @@ class TaxonRepository extends BaseTaxonRepository
             return $queryBuilder
                 ->andWhere($queryBuilder->expr()->between('o.left', $parent->getLeft(), $parent->getRight()))
                 ->andWhere('o.root = :rootCode')
+                ->andWhere('o.id != :self')
+                ->setParameter('self', $parent)
                 ->setParameter('rootCode', $parent->getRoot())
                 ->addOrderBy('o.left')
             ;
