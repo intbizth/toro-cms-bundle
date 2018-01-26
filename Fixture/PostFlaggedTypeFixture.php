@@ -13,7 +13,7 @@ class PostFlaggedTypeFixture extends AbstractResourceFixture
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'post_flagged_type';
     }
