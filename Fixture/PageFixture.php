@@ -10,7 +10,7 @@ final class PageFixture extends AbstractResourceFixture
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'page';
     }
