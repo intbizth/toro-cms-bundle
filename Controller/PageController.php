@@ -125,7 +125,16 @@ class PageController extends ResourceController
             'channel' => $channel,
         ]);
 
-        if ($defaultLocaleCode === $localeCode) {
+        if (null === $page && $channel->getCode() !== 'web-01') {
+            $page = $this->repository->findPageForDisplay([
+                'slug' => $slug,
+                'partial' => $partial,
+                'locale' => $defaultLocaleCode,
+                'channel' => $this->get('sylius.repository.channel')->findOneByCode('web-01'),
+            ]);
+        }
+        
+        if ($defaultLocaleCode === $localeCode || $page === null) {
             return $page;
         }
 
